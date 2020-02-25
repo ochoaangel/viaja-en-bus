@@ -50,12 +50,6 @@
           class="ion-no-margin ion-no-padding ion-justify-content-center ">
           <ion-col size="12" style="text-align: center;" class="ion-no-margin ion-no-padding">
 
-            <!-- <ion-row style="position: absolute; z-index: 3; right: 47%; top: -2rem;" *ngIf="loadingService">
-              <ion-col size="12">
-                <ion-spinner style="color: orangered; " name="circles"></ion-spinner>
-              </ion-col>
-            </ion-row> -->
-
             <ion-row *ngIf="!loadingService && allServices.length === 0">
               <ion-col size="12">
                 <p> No disponemos de servicios con las características definidas.</p>
@@ -155,6 +149,7 @@
                 </div>
 
               </div>
+
               <div style="display: flex; flex-direction: row; padding-top: 0.5rem;">
                 <!-- columna 1   -->
                 <div class="myServiceColumn" style="width: 35%;text-align: left;     padding-left: 1%;">
@@ -301,6 +296,9 @@
               </div>
 
             </div>
+
+            
+
 
 
 
