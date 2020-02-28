@@ -11,9 +11,18 @@ ion-header {
   width: 100%;
   color: white;
   display: flex;
-  align-items: center;
+  // align-items: center;
+  align-items: flex-end;
+  margin-top: 0.5rem;
   justify-content: center;
 }
+
+// .cabeceraGeneral {
+//   height: 50%;
+//   width: 100%;
+//   color: white;
+//   display: flex;
+// }
 
 .cabeceraTitulo {
   height: 50%;
