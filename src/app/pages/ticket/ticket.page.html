@@ -61,7 +61,7 @@
 
 
             <div *ngFor="let item of empresas; let em = index;">
-              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;background-color: #f3b2b2;" (click)="presionadoEmpresa(em)"> 
+              <div style="display: flex; flex-direction: row; justify-content: center; align-items: center;background-color: #a0a0a0;" (click)="presionadoEmpresa(em)"> 
                 <img src="data:image/png;base64,{{item.logo}}" style="height: 1.4rem; border-radius: 3px; margin: 0.5rem 0;" />
                 <ion-icon src="assets/icon/previous.svg" style="transform: rotate(-90deg);font-size: 1rem; margin-left: 4px; color: var(--ion-color-primary)"></ion-icon> 
               </div>
@@ -375,7 +375,7 @@
         <ion-select-option value="" *ngIf="!filterShowActive">&#8597; Filtrar</ion-select-option>
         <ion-select-option value="precio">Precio</ion-select-option>
         <ion-select-option value="horario">Horario</ion-select-option>
-        <ion-select-option value="promociones">Promociones</ion-select-option>
+        <!-- <ion-select-option value="promociones">Promociones</ion-select-option> -->
       </ion-select>
     </div>
 
