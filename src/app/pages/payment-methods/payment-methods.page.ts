@@ -23,24 +23,28 @@ export class PaymentMethodsPage implements OnInit {
     private integradorService: IntegradorService,
     private popoverCtrl: PopoverController,
     private mys: MyserviceService) {
-    this.loading = 2
+    this.loading = 1
 
 
-    this.integradorService.getListConvenio().subscribe(convenio => {
-      this.listaConvenio = convenio;
-      this.loading -= 1
-    })
+    // this.integradorService.getListConvenio().subscribe(convenio => {
+    //   this.listaConvenio = convenio;
+    //   this.loading -= 1
+    // })
 
     this.datosConvenio = null;
     this.integradorService.getListMedioPago().subscribe(medioPago => {
       this.loading -= 1
       console.log(medioPago);
+
       medioPago.Convenio.forEach(pago => {
         if (pago.BotonPago == 'SI') {
           pago.Imagen = pago.Imagen != "" ? "data:image/jpeg;base64," + pago.Imagen : "";
           this.listaMedioPago.push(pago);
         }
       })
+
+      this.listaMedioPago.shift()
+
     })
   }
 

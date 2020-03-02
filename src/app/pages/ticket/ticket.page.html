@@ -71,7 +71,7 @@
               <div *ngFor="let svc of allServices; let i = index;">
                 <!-- Servicio -->
                 <div *ngIf="item.empresa === svc.empresa && item.visible">
-                  <div style="width: 100%; height: 1px;background-color: #f3b2b2;"></div>
+                  <div style="width: 100%; height: 1px;background-color: var(--ion-color-primary);"></div>
 
                   <div style=" font-size: 2vw;padding: 5px 0;" [ngClass]="(em % 2 == 0) ? 'odd' : 'even'"
                     #divServicio>
@@ -321,7 +321,7 @@
 
                 </div>
               </div>
-              <div style="width: 100%;height: 1px; background-color: var(--ion-color-secondary);"></div>
+              <div style="width: 100%;height: 1px; background-color: var(--ion-color-primary);"></div>
 
             </div>
 

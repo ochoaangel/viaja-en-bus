@@ -6,7 +6,12 @@ const routes: Routes = [
   // // ORIGINAL
   { path: '', redirectTo: 'home', pathMatch: 'full' },
   { path: 'home', loadChildren: () => import('./home/home.module').then(m => m.HomePageModule) },
-
+  
+  // { path: '', redirectTo: 'payment-methods', pathMatch: 'full' },
+  // {
+  //   path: 'payment-methods',
+  //   loadChildren: () => import('./pages/payment-methods/payment-methods.module').then(m => m.PaymentMethodsPageModule)
+  // },
   ////////////////////////////////////////////////////////////////////////////////////
   //  PARA PDF
   // { path: '', redirectTo: 'transaction-voucher/LQN64693497', pathMatch: 'full' },
