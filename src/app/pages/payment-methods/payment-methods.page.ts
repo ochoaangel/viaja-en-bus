@@ -69,7 +69,13 @@ export class PaymentMethodsPage implements OnInit {
     v_email: false,
     email2: null,
     v_email2: false,
-    validandoConRut: false
+    validandoConRut: false,
+    document:null,
+    v_document:false,
+    name:null,
+    v_name:false,
+    lastName:null,
+    v_lastName:false
   }
   // public maskRut = {
   //   guide: false,
@@ -394,14 +400,19 @@ export class PaymentMethodsPage implements OnInit {
       } else if (!this.DatosFormulario.telefono) {
         this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un número telefonico válido para continuar con el pago');
     } else 
- */ if (!this.DatosFormulario.email) {
+ */ 
+if (!this.DatosFormulario.email) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un email válido para continuar con el pago');
     } else if (!this.DatosFormulario.email2) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe re-ingresar un email válido para continuar con el pago');
     } else if (this.DatosFormulario.email !== this.DatosFormulario.email) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Verifique Los emails no coinciden, para continuar con el pago');
-    } else if (!this.DatosFormulario.convenioDown) {
-      this.mys.alertShow('¡Verifique!', 'alert', 'Debe seleccionar un método de pago para continuar');
+    } else if (!this.DatosFormulario.name) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un nombre válido para continuar con el pago');
+    } else if (!this.DatosFormulario.lastName) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un apellido válido para continuar con el pago');
+    } else if (!this.DatosFormulario.document) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un Número de documento válido para continuar con el pago');
     } else if (!this.DatosFormulario.acuerdo) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe aceptar el acuerdo y condiciones de compra para continuar con el pago');
     } else {
@@ -628,5 +639,6 @@ export class PaymentMethodsPage implements OnInit {
     this.router.navigateByUrl('/terms-conditions')
   }
 
+  
 
 }
