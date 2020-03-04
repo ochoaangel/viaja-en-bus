@@ -56,7 +56,7 @@ const routes: Routes = [
   {
     path: 'payment-methods',
     loadChildren: () => import('./pages/payment-methods/payment-methods.module').then(m => m.PaymentMethodsPageModule)
-  },
+  }, 
   {
     path: 'notice',
     loadChildren: () => import('./pages/notice/notice.module').then(m => m.NoticePageModule)
