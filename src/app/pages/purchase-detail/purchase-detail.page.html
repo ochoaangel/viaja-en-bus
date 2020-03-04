@@ -10,10 +10,10 @@
       <img src="assets/images/LogoViaja.png" style="object-fit: scale-down;position: relative; z-index: 10;height: 7vh; margin-top: 0.6rem;margin-left: 8vw;">
     </div>
 
-    <div style="display: inline; width: 10%;" (click)="popCart($event)">
+    <div style="display: inline; width: 10%;text-align: -webkit-right; margin-left: 18px;"(click)="popCart($event)">
       <img src="assets/icon/Carrito-compra.png" style="height: 1.8rem;">
       <ion-badge color="dark" mode="ios" *ngIf="ticket.comprasDetalles && ticket.comprasDetalles.length>0"
-        style="position: absolute; left: 81%; top: 4vh; font-size: 0.7rem;opacity: 0.7; background-color: var(--ion-color-secondary);">
+        style="position: absolute; left: 81%; top: 5vh; font-size: 0.7rem;opacity: 0.7; background-color: var(--ion-color-secondary);">
         {{ticket.comprasDetalles.length}}</ion-badge>
     </div>
 
