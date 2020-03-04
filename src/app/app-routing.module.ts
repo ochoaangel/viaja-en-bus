@@ -11,7 +11,7 @@ const routes: Routes = [
   // {
   //   path: 'payment-methods',
   //   loadChildren: () => import('./pages/payment-methods/payment-methods.module').then(m => m.PaymentMethodsPageModule)
-  // },
+  // }, 
   ////////////////////////////////////////////////////////////////////////////////////
   //  PARA PDF
   // { path: '', redirectTo: 'transaction-voucher/LQN64693497', pathMatch: 'full' },

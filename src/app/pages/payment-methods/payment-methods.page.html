@@ -14,7 +14,7 @@
     <div style="display: inline; width: 10%;" (click)="popCart($event)">
       <img src="assets/icon/Carrito-compra.png" style="height: 1.8rem;">
       <ion-badge color="dark" mode="ios" *ngIf="ticket.comprasDetalles && ticket.comprasDetalles.length>0"
-        style="position: absolute; left: 81%; top: 11px; font-size: 0.7rem;opacity: 0.7; background-color: var(--ion-color-secondary);">
+        style="position: absolute; left: 81%; top: 4vh; font-size: 0.7rem;opacity: 0.7; background-color: var(--ion-color-secondary);">
         {{ticket.comprasDetalles.length}}</ion-badge>
     </div>
 
@@ -35,97 +35,110 @@
 
 </ion-header>
 
-<ion-content >
+<ion-content>
   <div style="width: 100%;height: 100%; background-color: orange">
-    <div style=" height: 100%; background-color: white ;">
-      <ion-grid class=" ion-no-padding ion-no-margin" style="height: 100%;">
-        <ion-row class=" ion-no-padding  ion-no-margin ion-justify-content-center "
+      <div style=" height: 100%; background-color: white ;">
+        <ion-grid class=" ion-no-padding ion-no-margin" style="height: 100%;">
+          <ion-row class=" ion-no-padding  ion-no-margin ion-justify-content-center "
           style="height: 100%; padding-top: 0.5rem;">
-          <ion-col class=" ion-no-padding ion-no-margin" size="12" style="text-align: center; background-color: white;">
+          <ion-col class=" ion-no-padding ion-no-margin" size="12"
+              style="text-align: center; background-color: white;">
+              
+              <form (ngSubmit)='validar(forma)'    #forma='ngForm' novalidate=''>
+              <div style="padding: 0 10vw;">
+
+                <ion-item>
+                  <ion-label position="floating">Nombre</ion-label>
+                  <ion-input name='name' type='text' #name='ngModel' minlength='3' maxleng="30" [(ngModel)]="DatosFormulario.name" ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label position="floating">Apellido</ion-label>
+                  <ion-input name='lastName' type='text' #lastName='ngModel'  minlength='3' maxleng="30" 
+                   [(ngModel)]="DatosFormulario.lastName" ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label position="floating">N° Documento</ion-label>
+                  <ion-input name='rut' type='text'
+                  placeholder="XXXXXXXXX-X"
+                  #rut='ngModel' pattern="^[0-9]+[-|‐]{1}[0-9kK]{1}$"  [(ngModel)]="DatosFormulario.rut" ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label position="floating">Móvil</ion-label>
+                  <ion-input name='telefono' type='phone' #telefono='ngModel'
+                  pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
+                  [(ngModel)]="DatosFormulario.telefono" ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label position="floating">Email*</ion-label>
+                  <ion-input name='email' type='email' #email='ngModel' 
+                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                  [(ngModel)]="DatosFormulario.email" type='email' ></ion-input>
+                </ion-item>
+
+                <ion-item>
+                  <ion-label position="floating">Confirme correo*</ion-label>
+                  <ion-input name='email2' type='email' #email2='ngModel'
+                  pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$"
+                  [(ngModel)]="DatosFormulario.email2" type='email' ></ion-input>
+                </ion-item>
+
+              </div>
+            </form>
 
 
-            <div style="padding: 0 10vw;"> 
+              <!-- Total -->
+              <div style="text-align: center;">
+                <h2 *ngIf="mostrarTarifaAtachada" style="text-decoration:line-through;color: red;">
+                  Total: ${{totalSinDscto.toLocaleString('de-DE') }}</h2>
+                <h2>Total: ${{totalFinal.toLocaleString('de-DE') }}</h2>
+              </div>
 
-              <ion-item>
-                <ion-label position="floating">Nombre</ion-label>
-                <ion-input [(ngModel)]="DatosFormulario.name"></ion-input>
-              </ion-item>
+              <!-- imagen metodo de pago -->
+              <ion-list class=" ion-no-padding ion-no-margin">
+                <!-- <ion-radio-group> -->
+                  <ion-grid fixed class=" ion-no-padding ion-no-margin">
+                    <ion-row>
 
-              <ion-item>
-                <ion-label position="floating">Apellido</ion-label>
-                <ion-input [(ngModel)]="DatosFormulario.lastName"></ion-input>
-              </ion-item>
+                      <ion-col *ngFor="let medioPago of listaMedioPago" class=" ion-no-padding ion-no-margin"
+                        style="display: flex; justify-content: center;">
 
-              <ion-item>
-                <ion-label position="floating">N° Documento</ion-label>
-                <ion-input [(ngModel)]="DatosFormulario.document"></ion-input>
-              </ion-item>
+                        <ion-item lines="none">
+                          <ion-label style="margin: 0;">
 
-              <ion-item>
-                <ion-label position="floating">Móvil</ion-label>
-                <ion-input [(ngModel)]="DatosFormulario.telefono"></ion-input>
-              </ion-item>
+                            <img src="{{ medioPago.Imagen || 'assets/images/MediosDePago/default.jpg'}}"
+                              title="{{medioPago.Descripcion}}">
+                          </ion-label>
+                          <ion-radio mode="md" slot="start" (click)="seleccionadoMedioPago(medioPago.Convenio)"
+                            style="margin: 0;" value="{{ medioPago.Convenio }}"></ion-radio>
+                        </ion-item>
 
-              <ion-item>
-                <ion-label position="floating">Email*</ion-label>
-                <ion-input [(ngModel)]="DatosFormulario.email"></ion-input>
-              </ion-item>
+                      </ion-col>
 
-              <ion-item>
-                <ion-label position="floating">Confirme correo*</ion-label>
-                <ion-input [(ngModel)]="DatosFormulario.email2"></ion-input>
-              </ion-item>
+                    </ion-row>
+                  </ion-grid>
+                <!-- </ion-radio-group> -->
+              </ion-list>
 
-            </div>
+              <!-- Terminos y condiciones-->
+              <div (click)="aceptarAcuerdo()" style="display: flex;margin: 1.5rem;">
+                <ion-checkbox name='radio' [(ngModel)]="acuerdo.acuerdo" style="min-height: 1rem;min-width: 1rem;margin: 0 2vw;">
+                </ion-checkbox>
 
-            <!-- Total -->
-            <div style="text-align: center;">
-              <h2 *ngIf="mostrarTarifaAtachada" style="text-decoration:line-through;color: red;">
-                Total: ${{totalSinDscto.toLocaleString('de-DE') }}</h2>
-              <h2>Total: ${{totalFinal.toLocaleString('de-DE') }}</h2>
-            </div>
+                <ion-text style="font-size: 0.8rem; text-align: justify;">
+                  He leído y estoy de acuerdo con
+                  <strong style="color: #0247ac;" (click)="irAterminos()">los términos y condiciones de la
+                    compra</strong>
+                </ion-text>
+              </div>
 
-            <!-- imagen metodo de pago -->
-            <ion-list class=" ion-no-padding ion-no-margin">
-              <ion-radio-group>
-                <ion-grid fixed class=" ion-no-padding ion-no-margin">
-                  <ion-row >
-
-                    <ion-col *ngFor="let medioPago of listaMedioPago"
-                      class=" ion-no-padding ion-no-margin" style="display: flex; justify-content: center;">
-
-                      <ion-item lines="none">
-                        <ion-label style="margin: 0;">
-
-                          <img src="{{ medioPago.Imagen || 'assets/images/MediosDePago/default.jpg'}}"
-                            title="{{medioPago.Descripcion}}">
-                        </ion-label>
-                        <ion-radio mode="md" slot="start" (click)="seleccionadoMedioPago(medioPago.Convenio)"
-                          style="margin: 0;" value="{{ medioPago.Convenio }}"></ion-radio>
-                      </ion-item>
-
-                    </ion-col>
-
-                  </ion-row>
-                </ion-grid>
-              </ion-radio-group>
-            </ion-list>
-
-            <!-- Terminos y condiciones-->
-            <div (click)="aceptarAcuerdo()" style="display: flex;margin: 1.5rem;">
-              <ion-checkbox [(ngModel)]="acuerdo.acuerdo" style="min-height: 1rem;min-width: 1rem;margin: 0 2vw;">
-              </ion-checkbox>
-
-              <ion-text style="font-size: 0.8rem; text-align: justify;">
-                He leído y estoy de acuerdo con
-                <strong style="color: #0247ac;" (click)="irAterminos()">los términos y condiciones de la compra</strong>
-              </ion-text>
-            </div>
-
-          </ion-col>
-        </ion-row>
-      </ion-grid>
-    </div>
+            </ion-col>
+          </ion-row>
+        </ion-grid>
+      </div>
   </div>
 </ion-content>
 
@@ -139,7 +152,7 @@
     </ion-button>
 
     <!-- <div style="width: 50%;"></div> -->
-    <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" (click)="pagar()">
+    <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" type="submit" form="forma"  (click)="pagar(forma)">
       <div style="display: inline;  text-align: right;padding-right: 7px;  text-transform: none">Pagar</div>
       <ion-icon src="assets/icon/previous.svg" style="transform: rotate(180deg);"></ion-icon>
     </ion-button>

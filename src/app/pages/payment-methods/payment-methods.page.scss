@@ -1,5 +1,6 @@
 ion-header {
-  height: 15vh;
+  height: 17vh;
+padding-top: 2vh;
   width: 100vw;
   background-color: var(--ion-color-primary);
   text-align: center;
@@ -61,17 +62,17 @@ ion-header {
   font-size: 2vh;
 }
 
-input {
-  display: inline-block;
-  box-sizing: content-box;
-  // padding: 1.5vh 3vw;
-  padding: 0.2rem 1rem;
-  border: 1px solid var(--ion-color-primary);
-  -webkit-border-radius: 27px;
-  border-radius: 5px;
-  width: -webkit-fill-available;
-  margin: 0.8vh 3vw;
-}
+// input {
+//   display: inline-block;
+//   box-sizing: content-box;
+//   // padding: 1.5vh 3vw;
+//   padding: 0.2rem 1rem;
+//   border: 1px solid var(--ion-color-primary);
+//   -webkit-border-radius: 27px;
+//   border-radius: 5px;
+//   width: -webkit-fill-available;
+//   margin: 0.8vh 3vw;
+// }
 
 .ingresar {
   display: inline-block;

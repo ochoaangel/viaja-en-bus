@@ -5,6 +5,7 @@ import { IntegradorService } from 'src/app/service/integrador.service';
 import { PopMenuComponent } from 'src/app/components/pop-menu/pop-menu.component';
 import { PopoverController } from '@ionic/angular';
 import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
+import { Form } from '@angular/forms';
 
 @Component({
   selector: 'app-payment-methods',
@@ -58,7 +59,7 @@ export class PaymentMethodsPage implements OnInit {
   DatosFormulario = {
     convenioUp: null,
     convenioDown: null,
-    acuerdo: null,
+    acuerdo: false,
     rut: null,
     v_rut: false,
     codigo: '+56',
@@ -70,12 +71,12 @@ export class PaymentMethodsPage implements OnInit {
     email2: null,
     v_email2: false,
     validandoConRut: false,
-    document:null,
-    v_document:false,
-    name:null,
-    v_name:false,
-    lastName:null,
-    v_lastName:false
+    document: null,
+    v_document: false,
+    name: null,
+    v_name: false,
+    lastName: null,
+    v_lastName: false
   }
   // public maskRut = {
   //   guide: false,
@@ -378,6 +379,7 @@ export class PaymentMethodsPage implements OnInit {
   }
 
   seleccionadoMedioPago(medioPago) {
+    console.log(medioPago)
     this.DatosFormulario.convenioDown = medioPago;
     // if (this.DatosFormulario.convenioDown === 'BCNSD') {
     //   this.rutShow = true
@@ -387,21 +389,103 @@ export class PaymentMethodsPage implements OnInit {
     // console.log('this.DatosFormulario', this.DatosFormulario);
   }
 
-  pagar() {
+  pagar(form) {
+    console.log(form)
+    console.log(this.DatosFormulario)
+    console.log(this.acuerdo.acuerdo)
 
- /*    if (!this.DatosFormulario.convenioUp) {
-      this.mys.alertShow('¡Verifique!', 'alert', 'Debe Seleccionar algún convenio para continuar con el pago');
-    } else if (!this.DatosFormulario.rut) {
-      this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un RUT válido para continuar con el pago');
-      // } else if (!this.DatosFormulario.validandoConRut) {
-      //   this.mys.alertShow('¡Verifique!', 'alert', 'Debe validar el RUT para continuar con el pago');
-    } else if (!this.DatosFormulario.codigo) {
-      this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un código de país válido. <br>Ejemplo: +56');
-      } else if (!this.DatosFormulario.telefono) {
-        this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un número telefonico válido para continuar con el pago');
-    } else 
- */ 
-if (!this.DatosFormulario.email) {
+    if (form.invalid) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Verifique, igrese todos los campos correctamente.');
+    } else if (form.value.email !== form.value.email2) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Verifique Los emails no coinciden, para continuar con el pago');
+    } else if (!this.validaRut(form.value.rut)) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un Número de documento válido para continuar con el pago');
+    } else if (!this.DatosFormulario.convenioDown) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Debe seleccionar el método de pago para continuar con el pago');
+    } else if (!this.acuerdo.acuerdo) {
+      this.mys.alertShow('¡Verifique!', 'alert', 'Debe aceptar el acuerdo y condiciones de compra para continuar con el pago');
+    } else {
+
+      // console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooo');
+      let guardarTransaccion = {
+        email: this.DatosFormulario.email,
+        rut: this.DatosFormulario.rut,
+        medioDePago: this.DatosFormulario.convenioDown,
+        puntoVenta: "WEBM",
+        montoTotal: this.totalFinal,
+        idSistema: 5,
+        listaCarrito: []
+      }
+      console.log(guardarTransaccion);
+      console.log(this.mys.ticket.comprasDetalles);
+      this.mys.ticket.comprasDetalles.forEach(boleto => {
+        guardarTransaccion.listaCarrito.push({
+          servicio: boleto.service.idServicio,
+          fechaServicio: boleto.service.fechaServicio,
+          fechaPasada: boleto.service.fechaSalida,
+          fechaLlegada: boleto.service.fechaLlegada,
+          horaSalida: boleto.service.horaSalida,
+          horaLlegada: boleto.service.horaLlegada,
+          asiento: boleto.asiento,
+          origen: boleto.service.idTerminalOrigen,
+          destino: boleto.service.idTerminalDestino,
+          monto: boleto.valor,
+          precio: boleto.valor,
+          descuento: this.datosConvenio != null ? this.datosConvenio.descuento : 0,
+          empresa: boleto.service.empresa,
+          clase: boleto.piso == "1" ? boleto.service.idClaseBusPisoUno : boleto.service.idClaseBusPisoDos,
+          convenio: this.datosConvenio != null ? this.datosConvenio.idConvenio : "",
+          datoConvenio: "",
+          bus: boleto.piso == "1" ? boleto.service.busPiso1 : boleto.service.busPiso2,
+          piso: boleto.piso,
+          integrador: boleto.service.integrador
+        });
+      })
+      this.loading += 1
+      this.integradorService.guardarTransaccion(guardarTransaccion).subscribe(resp => {
+        this.loading -= 1
+        let valor: any = resp;
+        if (valor.exito) {
+          formularioTBKWS(valor.url, valor.token);
+        } else {
+          this.mys.alertShow('¡Verifique!', 'alert', valor.mensaje);
+        }
+      })
+    }
+
+    function formularioTBKWS(urltbk, token) {
+      var f = document.createElement("form");
+      f.setAttribute('method', "post");
+      f.setAttribute('action', urltbk);
+      var i = document.createElement("input");
+      i.setAttribute('type', "text");
+      i.setAttribute('name', "TBK_TOKEN");
+      i.setAttribute("value", token);
+      f.appendChild(i.cloneNode());
+      f.style.display = "none";
+      document.body.appendChild(f);
+      f.submit();
+      document.body.removeChild(f);
+    }
+
+
+  }
+
+  pagarX() {
+
+    /*    if (!this.DatosFormulario.convenioUp) {
+         this.mys.alertShow('¡Verifique!', 'alert', 'Debe Seleccionar algún convenio para continuar con el pago');
+       } else if (!this.DatosFormulario.rut) {
+         this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un RUT válido para continuar con el pago');
+         // } else if (!this.DatosFormulario.validandoConRut) {
+         //   this.mys.alertShow('¡Verifique!', 'alert', 'Debe validar el RUT para continuar con el pago');
+       } else if (!this.DatosFormulario.codigo) {
+         this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un código de país válido. <br>Ejemplo: +56');
+         } else if (!this.DatosFormulario.telefono) {
+           this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un número telefonico válido para continuar con el pago');
+       } else 
+    */
+    if (!this.DatosFormulario.email) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un email válido para continuar con el pago');
     } else if (!this.DatosFormulario.email2) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe re-ingresar un email válido para continuar con el pago');
@@ -411,7 +495,7 @@ if (!this.DatosFormulario.email) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un nombre válido para continuar con el pago');
     } else if (!this.DatosFormulario.lastName) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un apellido válido para continuar con el pago');
-    } else if (!this.DatosFormulario.document) {
+    } else if (!this.DatosFormulario.rut) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un Número de documento válido para continuar con el pago');
     } else if (!this.DatosFormulario.acuerdo) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe aceptar el acuerdo y condiciones de compra para continuar con el pago');
@@ -480,7 +564,8 @@ if (!this.DatosFormulario.email) {
   }
 
   aceptarAcuerdo() {
-    if (this.acuerdo.acuerdo) { this.DatosFormulario.acuerdo = true } else { this.DatosFormulario.acuerdo = false }
+    console.log('acuerdo');
+    if (this.acuerdo.acuerdo) { this.acuerdo.acuerdo = true } else { this.acuerdo.acuerdo = false }
   }
 
   setFocus(siguiente) {
@@ -639,6 +724,32 @@ if (!this.DatosFormulario.email) {
     this.router.navigateByUrl('/terms-conditions')
   }
 
-  
+
+
+  validaRut(rutCompleto) {
+    if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(rutCompleto)) {
+      return false;
+    } else {
+
+      var tmp = rutCompleto.split('-');
+      var digv = tmp[1];
+      var rut = tmp[0];
+      if (digv == 'K') digv = 'k';
+      return (this.dv(rut) == digv);
+    }
+  }
+
+  dv(T) {
+    var M = 0, S = 1;
+    for (; T; T = Math.floor(T / 10))
+      S = (S + T % 10 * (9 - M++ % 6)) % 11;
+    return S ? S - 1 : 'k';
+  }
+
+  validar(forma) {
+    console.log('forma:', forma);
+  }
 
 }
+
+
