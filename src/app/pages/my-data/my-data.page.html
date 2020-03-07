@@ -7,7 +7,8 @@
     <div style="display: inline; width: 10%;border-color: white; border: solid 1px;margin: 5px;">Es</div>
 
     <div style="width: 60%; height: 100%; display: flex; align-items: center; justify-content: center;">
-      <img src="assets/images/LogoViaja.png" style="object-fit: scale-down;position: relative; z-index: 10;height: 7vh; margin-top: 0.6rem;margin-left: 8vw;">
+      <img src="assets/images/LogoViaja.png"
+        style="object-fit: scale-down;position: relative; z-index: 10;height: 7vh; margin-top: 0.6rem;margin-left: 8vw;">
     </div>
 
     <div style="display: inline; width: 10%;">
@@ -38,112 +39,120 @@
         <ion-row class=" ion-justify-content-center  ion-align-items-center" style="height: 100%">
           <ion-col size="12" style="text-align: center;">
 
+            <form (ngSubmit)='validar(forma)' #forma='ngForm' novalidate=''>
 
-            <ion-row>
-              <ion-col size="12">
-                <ion-icon name="ios-person" style="font-size: 15vh;color: var(--ion-color-primary);"></ion-icon>
-                <ion-text color="primary">
-                  <h6>Carlos Pérez</h6>
-                </ion-text>
-              </ion-col>
-            </ion-row>
-
-
-
+              <ion-row>
+                <ion-col size="12">
+                  <ion-icon name="ios-person" style="font-size: 15vh;color: var(--ion-color-primary);"></ion-icon>
+                  <ion-text color="primary">
+                    <h6>Carlos Pérez</h6>
+                  </ion-text>
+                </ion-col>
+              </ion-row>
 
 
-            <ion-row>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="RUT" /></div>
-              </ion-col>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Nombre" /></div>
-              </ion-col>
-            </ion-row>
 
 
-            <ion-row>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Apellido paterno" /></div>
-              </ion-col>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Apellido materno" /></div>
-              </ion-col>
-            </ion-row>
 
-            <ion-row>
+              <ion-row>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="RUT" /></div>
+                </ion-col>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Nombre" /></div>
+                </ion-col>
+              </ion-row>
 
-              <ion-col class=" ion-no-padding ion-no-margin" size="6" class="columnaDoble"
-                style="padding-left: 8px;padding-right: 3px;font-size: 80%;">
-                <div style="display: inline-block;width: 30%;">
 
-                  <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="d" cancel-text="Cancelar">
-                    <ion-select-option value="{{i+1}}" *ngFor="let dummy of ' '.repeat(31).split(''), let i = index">
-                      {{i+1}}</ion-select-option>
-                  </ion-select>
-                  
-                </div>
-                <div style="display: inline-block;width: 30%;">
-                  <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="m"  cancel-text="Cancelar">
-                    <ion-select-option value="{{i+1}}" *ngFor="let dummy of ' '.repeat(12).split(''), let i = index">
-                      {{i+1}}</ion-select-option>
-                  </ion-select>
-                </div>
-                <div style="display: inline-block;width: 40%;">
-                  <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="aaaa"  cancel-text="Cancelar">
-                    <ion-select-option value="{{i+1+1900}}"
-                      *ngFor="let dummy of ' '.repeat(120).split(''), let i = index">{{i+1+1900}}</ion-select-option>
-                  </ion-select>
-                </div>
+              <ion-row>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Apellido paterno" /></div>
+                </ion-col>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Apellido materno" /></div>
+                </ion-col>
+              </ion-row>
 
-              </ion-col>
+              <ion-row>
 
-              <ion-col size="6" class="columnaDoble">
-                <ion-row>
-                    <div style="display: inline-block;width: 10%;"><ion-checkbox mode="ios"></ion-checkbox></div>
+                <ion-col class=" ion-no-padding ion-no-margin" size="6" class="columnaDoble"
+                  style="padding-left: 8px;padding-right: 3px;font-size: 80%;">
+                  <div style="display: inline-block;width: 30%;">
+
+                    <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="d"
+                      cancel-text="Cancelar">
+                      <ion-select-option value="{{i+1}}" *ngFor="let dummy of ' '.repeat(31).split(''), let i = index">
+                        {{i+1}}</ion-select-option>
+                    </ion-select>
+
+                  </div>
+                  <div style="display: inline-block;width: 30%;">
+                    <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="m"
+                      cancel-text="Cancelar">
+                      <ion-select-option value="{{i+1}}" *ngFor="let dummy of ' '.repeat(12).split(''), let i = index">
+                        {{i+1}}</ion-select-option>
+                    </ion-select>
+                  </div>
+                  <div style="display: inline-block;width: 40%;">
+                    <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="aaaa"
+                      cancel-text="Cancelar">
+                      <ion-select-option value="{{i+1+1900}}"
+                        *ngFor="let dummy of ' '.repeat(120).split(''), let i = index">{{i+1+1900}}</ion-select-option>
+                    </ion-select>
+                  </div>
+
+                </ion-col>
+
+                <ion-col size="6" class="columnaDoble">
+                  <ion-row>
+                    <div style="display: inline-block;width: 10%;">
+                      <ion-checkbox mode="ios"></ion-checkbox>
+                    </div>
                     <div style="display: inline-block;width: 40%; font-size: 3vw;">Femenino</div>
-                    <div style="display: inline-block;width: 10%;"><ion-checkbox mode="ios"></ion-checkbox></div>
+                    <div style="display: inline-block;width: 10%;">
+                      <ion-checkbox mode="ios"></ion-checkbox>
+                    </div>
                     <div style="display: inline-block;width: 40%; font-size: 3vw;">Masculino</div>
-                </ion-row>
-              </ion-col>
+                  </ion-row>
+                </ion-col>
 
-            </ion-row>
+              </ion-row>
 
-            <ion-row>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="E-mail" /></div>
-              </ion-col>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Ocupación" /></div>
-              </ion-col>
-            </ion-row>
+              <ion-row>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="E-mail" /></div>
+                </ion-col>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Ocupación" /></div>
+                </ion-col>
+              </ion-row>
 
-            <ion-row>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Teléfono" /></div>
-              </ion-col>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Celular" /></div>
-              </ion-col>
-            </ion-row>
+              <ion-row>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Teléfono" /></div>
+                </ion-col>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Celular" /></div>
+                </ion-col>
+              </ion-row>
 
-            <ion-row>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Región" /></div>
-              </ion-col>
-              <ion-col size="6" class="columnaDoble">
-                <div style="margin-bottom: 5px;"><input placeholder="Ciudad" /></div>
-              </ion-col>
-            </ion-row>
-
-
-
-            <ion-row>
-              <ion-col size="12" style="margin-top: 2vh; margin-bottom: 2vh;"><input type="button" class="ingresar"
-                  value="Guardar cambios" routerLink="/user-panel" /></ion-col>
-            </ion-row>
+              <ion-row>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Región" /></div>
+                </ion-col>
+                <ion-col size="6" class="columnaDoble">
+                  <div style="margin-bottom: 5px;"><input placeholder="Ciudad" /></div>
+                </ion-col>
+              </ion-row>
 
 
+
+              <ion-row>
+                <ion-col size="12" style="margin-top: 2vh; margin-bottom: 2vh;"><input type="button" class="ingresar"
+                    value="Guardar cambios" type="submit"  /></ion-col>
+              </ion-row>
+
+            </form>
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -152,17 +161,18 @@
 </ion-content>
 
 <ion-footer>
-    <div style=" width: 100%; display: flex;align-items: center;justify-content: center; background-color: var(--ion-color-primary);">
+  <div
+    style=" width: 100%; display: flex;align-items: center;justify-content: center; background-color: var(--ion-color-primary);">
 
-        <ion-button fill="clear" style="color: white;  width: 50%; outline: none;"  routerLink="/user-panel">
-          <ion-icon src="assets/icon/previous.svg"></ion-icon>
-          <div style="display: inline; text-align: left ;padding-left: 10px; text-transform: none;">Regresar</div>
-        </ion-button>
-  
-        <ion-button fill="clear" style="color: white;  width: 50%; outline: none;"  routerLink="/user-panel">
-          <div style="display: inline;  text-align: right;padding-right: 7px;  text-transform: none">Continuar</div>
-          <ion-icon src="assets/icon/previous.svg" style="transform: rotate(180deg);"></ion-icon>
-        </ion-button>
-  
-      </div>
+    <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" routerLink="/user-panel">
+      <ion-icon src="assets/icon/previous.svg"></ion-icon>
+      <div style="display: inline; text-align: left ;padding-left: 10px; text-transform: none;">Regresar</div>
+    </ion-button>
+
+    <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" routerLink="/user-panel">
+      <div style="display: inline;  text-align: right;padding-right: 7px;  text-transform: none">Continuar</div>
+      <ion-icon src="assets/icon/previous.svg" style="transform: rotate(180deg);"></ion-icon>
+    </ion-button>
+
+  </div>
 </ion-footer>

@@ -5,18 +5,18 @@
 :root {
   // --ion-color-primary: #fe5200;
   --ion-color-primary: #0247ac;
-  --ion-color-primary-rgb: 254,82,0;
+  --ion-color-primary-rgb: 254, 82, 0;
   --ion-color-primary-contrast: #ffffff;
-  --ion-color-primary-contrast-rgb: 255,255,255;
+  --ion-color-primary-contrast-rgb: 255, 255, 255;
   --ion-color-primary-shade: #e04800;
   --ion-color-primary-tint: #fe631a;
 
   // --ion-color-secondary: #fe5200;
   --ion-color-secondary: #f94343;
   // --ion-color-secondary: #0247ac;
-  --ion-color-secondary-rgb: 2,71,172;
+  --ion-color-secondary-rgb: 2, 71, 172;
   --ion-color-secondary-contrast: #ffffff;
-  --ion-color-secondary-contrast-rgb: 255,255,255;
+  --ion-color-secondary-contrast-rgb: 255, 255, 255;
   --ion-color-secondary-shade: #023e97;
   --ion-color-secondary-tint: #1b59b4;
   // /** primary **/
@@ -119,13 +119,23 @@ ion-select {
   }
 }
 
-.popMenu, .popLenguage{
+.popMenu {
+  --background: var(--ion-color-secondary);
+  --width: 15rem;
+  --border-color: var(--ion-color-secondary);
+  ion-item {
+    --background: var(--ion-color-secondary);
+    --border-color: var(--ion-color-secondary);
+  }
+}
+
+.popLenguage {
   --background: var(--ion-color-secondary);
   --width: 15rem;
   --border-color: var(--ion-color-secondary);
 }
 
-.popCart{
+.popCart {
   --background: var(--ion-color-secondary);
   --width: 97vw;
   --border-color: var(--ion-color-secondary);

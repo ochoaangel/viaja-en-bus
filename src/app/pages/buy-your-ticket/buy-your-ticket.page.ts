@@ -855,6 +855,7 @@ export class BuyYourTicketPage implements OnInit {
   }
 
   async popMenu(event) {
+    console.log('event',event);
     const popoverMenu = await this.popoverCtrl.create({
       component: PopMenuComponent,
       event,
