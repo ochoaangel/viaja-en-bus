@@ -329,7 +329,8 @@ export class TicketPage implements OnInit {
 
 
           setTimeout(() => {
-            this.content.scrollToPoint(0, this.divServicio['_results'][nServiceSeleccion].nativeElement.offsetTop, 100);
+// console.log('this.divServicio',this.divServici;
+            // this.content.scrollToPoint(0, this.divServicio['_results'][nServiceSeleccion].nativeElement.offsetTop, 100);
           });
 
           this.loadingBus = false;
