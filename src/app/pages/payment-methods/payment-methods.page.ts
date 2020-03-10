@@ -52,7 +52,7 @@ export class PaymentMethodsPage implements OnInit {
   mostrarTarifaAtachada = false;
   totalSinDscto;
   totalFinal;
-  showRutError= false;
+  showRutError = false;
 
   acuerdo = { acuerdo: false }
   ticket
@@ -750,8 +750,8 @@ export class PaymentMethodsPage implements OnInit {
   validar(forma) {
     console.log('forma:', forma);
   }
-  onKeyPressedOnRut(event){
-    event? this.showRutError= false: this.showRutError= true;
+  onKeyPressedOnRut(event) {
+    event ? this.showRutError = false : this.showRutError = true;
   }
 
 }

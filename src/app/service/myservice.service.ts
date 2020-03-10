@@ -4,7 +4,12 @@ import { AlertController, PopoverController } from '@ionic/angular';
 import * as _ from 'underscore';
 import * as moment from 'moment';
 import { PopMenuComponent } from '../components/pop-menu/pop-menu.component';
+
 import { Router } from '@angular/router';
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+import { Platform } from '@ionic/angular';
+import { Observable, Subscriber } from 'rxjs';
+
 
 @Injectable({
   providedIn: 'root'
@@ -17,10 +22,126 @@ export class MyserviceService {
   goTicket;
   BackTicket;
   // regresandoAticket = false;
-  total=0;
+  total = 0;
   temporalComprasCarrito;
 
-  constructor(public alertController: AlertController, public popoverCtrl: PopoverController, public router: Router) { }
+  constructor(
+    public alertController: AlertController,
+    public popoverCtrl: PopoverController,
+    public router: Router,
+    private nativeStorage: NativeStorage,
+    public platform: Platform
+  ) { }
+
+
+
+
+  /**
+   * Obtiene todos los post que existen en la api
+   */
+  checkIfExistUsuario(): Observable<any> {
+    return new Observable((observer: Subscriber<any>) => {
+
+      // let plt = this.platform.platforms()
+      if (this.platform.platforms().includes('mobileweb')) {
+        // console.log('tiene mobilweb');
+
+        if (localStorage.getItem("usuario")) {
+          observer.next(true)
+          observer.complete()
+        } else {
+          observer.next(false)
+          observer.complete()
+        }
+
+
+      } else {
+        // console.log('No tiene mobilweb');
+
+        this.nativeStorage.getItem('usuario')
+          .then(
+            data => {
+              if (data) {
+                observer.next(true)
+                observer.complete()
+              } else {
+                observer.next(false)
+                observer.complete()
+              }
+            },
+            error => { console.error('error al leer el LocalSorage:', error) }
+          );
+      }
+
+
+
+    });
+  } // 
+
+
+
+
+
+  /**
+   * Obtiene todos los post que existen en la api
+   */
+  saveUsuario(datosUsuario): Observable<any> {
+    return new Observable((observer: Subscriber<any>) => {
+
+      // let plt = this.platform.platforms()
+      if (this.platform.platforms().includes('mobileweb')) {
+        // console.log('tiene mobilweb');
+
+        localStorage.setItem("usuario", JSON.stringify(datosUsuario));
+
+        if (localStorage.getItem("usuario")) {
+          observer.next(true)
+          observer.complete()
+        } else {
+          observer.next(false)
+          observer.complete()
+        }
+
+
+      } else {
+        // console.log('No tiene mobilweb');
+
+
+        this.nativeStorage.setItem('usuario', datosUsuario)
+        .then(
+          data => {
+            // Verificando que si se guard{o}
+            console.log('Stored first item!',data)
+
+            this.nativeStorage.getItem('usuario')
+            .then(
+              data => {
+                if (data) {
+                  observer.next(true)
+                  observer.complete()
+                } else {
+                  observer.next(false)
+                  observer.complete()
+                }
+              },
+              error => { console.error('error al leer el LocalSorage:', error) }
+            );
+
+        },
+          error => console.error('Error storing item', error)
+        );
+
+
+
+      }
+
+
+
+    });
+  } // 
+
+
+
 
 
 

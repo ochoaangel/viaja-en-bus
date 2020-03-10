@@ -55,21 +55,31 @@
 
 
               <ion-row>
+
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="RUT" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('rut')" placeholder="RUT"  type="text" name="rut" pattern=""  [(ngModel)]="myData.rut" required #rut></ion-input>
+                  </div>
                 </ion-col>
+
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Nombre" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('nombre')" placeholder="RUT"  type="text" name="nombre" pattern="" #nombre [(ngModel)]="myData.nombre" required></ion-input>
+                  </div>
                 </ion-col>
               </ion-row>
 
 
               <ion-row>
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Apellido paterno" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('apellidoPaterno')" placeholder="apellidoPaterno"  type="text" name="apellidoPaterno" pattern="" #apellidoPaterno [(ngModel)]="myData.apellidoPaterno" required></ion-input>
+                  </div>
                 </ion-col>
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Apellido materno" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('apellidoMaterno')" placeholder="apellidoMaterno"  type="text" name="apellidoMaterno" pattern="" #apellidoMaterno [(ngModel)]="myData.apellidoMaterno" required></ion-input>
+                  </div>
                 </ion-col>
               </ion-row>
 
@@ -79,7 +89,7 @@
                   style="padding-left: 8px;padding-right: 3px;font-size: 80%;">
                   <div style="display: inline-block;width: 30%;">
 
-                    <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="d"
+                    <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="d" 
                       cancel-text="Cancelar">
                       <ion-select-option value="{{i+1}}" *ngFor="let dummy of ' '.repeat(31).split(''), let i = index">
                         {{i+1}}</ion-select-option>
@@ -94,7 +104,7 @@
                     </ion-select>
                   </div>
                   <div style="display: inline-block;width: 40%;">
-                    <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="aaaa"
+                    <ion-select class=" ion-no-padding ion-no-margin" multiple="false" placeholder="aaaa" 
                       cancel-text="Cancelar">
                       <ion-select-option value="{{i+1+1900}}"
                         *ngFor="let dummy of ' '.repeat(120).split(''), let i = index">{{i+1+1900}}</ion-select-option>
@@ -120,28 +130,40 @@
 
               <ion-row>
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="E-mail" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('email')" placeholder="email"  type="email" name="email" pattern="" #email [(ngModel)]="myData.email" required></ion-input>
+                  </div>
                 </ion-col>
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Ocupación" /></div>
-                </ion-col>
-              </ion-row>
-
-              <ion-row>
-                <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Teléfono" /></div>
-                </ion-col>
-                <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Celular" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('ocupacion')" placeholder="ocupacion"  type="text" name="ocupacion" pattern="" #ocupacion [(ngModel)]="myData.ocupacion" required></ion-input>
+                  </div>
                 </ion-col>
               </ion-row>
 
               <ion-row>
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Región" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('telefono')" placeholder="telefono"  type="phone" name="telefono" pattern="" #telefono [(ngModel)]="myData.telefono" required></ion-input>
+                  </div>
                 </ion-col>
                 <ion-col size="6" class="columnaDoble">
-                  <div style="margin-bottom: 5px;"><input placeholder="Ciudad" /></div>
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('celular')" placeholder="celular"  type="phone" name="celular" pattern="" #celular [(ngModel)]="myData.celular" required></ion-input>
+                  </div>
+                </ion-col>
+              </ion-row>
+
+              <ion-row>
+                <ion-col size="6" class="columnaDoble">
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('region')" placeholder="region"  type="text" name="region" pattern="" #region [(ngModel)]="myData.region" required></ion-input>
+                  </div>
+                </ion-col>
+                <ion-col size="6" class="columnaDoble">
+                  <div class="overIonInput">
+                    <ion-input (keyup)="myKeyUp('ciudad')" placeholder="ciudad"  type="text" name="ciudad" pattern="" #ciudad [(ngModel)]="myData.ciudad" required></ion-input>
+                  </div>
                 </ion-col>
               </ion-row>
 

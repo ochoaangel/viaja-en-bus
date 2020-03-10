@@ -32,6 +32,8 @@ import { FileOpener } from "@ionic-native/file-opener/ngx";
 import { AndroidPermissions } from '@ionic-native/android-permissions/ngx';
 import { FormsModule } from '@angular/forms';
 
+import { NativeStorage } from '@ionic-native/native-storage/ngx';
+
 @NgModule({
   declarations: [AppComponent],
   entryComponents: [],
@@ -62,7 +64,8 @@ import { FormsModule } from '@angular/forms';
     FileTransfer,
     FileOpener,
     File,
-    AndroidPermissions
+    AndroidPermissions,
+    NativeStorage
   ],
   bootstrap: [AppComponent]
 })
