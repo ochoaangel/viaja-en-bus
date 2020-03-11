@@ -121,7 +121,14 @@ export class IntegradorService {
         this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
         return this.http.post<any[]>(urlFinal, params);
     }
-
+    
+    usuarioCambiarPassword(params: any): Observable<any[]> {
+        let urlFinal
+        let dirProxy = '/srv-privado-viajaenbus-web/rest/usuario/cambioPassowrd'
+        this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
+        return this.http.post<any[]>(urlFinal, params);
+    }
+    
     usuarioGuardar(params: any): Observable<any[]> {
         let urlFinal
         let dirProxy = '/srv-privado-viajaenbus-web/rest/usuario/guardar'
@@ -129,12 +136,6 @@ export class IntegradorService {
         return this.http.post<any[]>(urlFinal, params);
     }
 
-    usuarioCambiarPassword(params: any): Observable<any[]> {
-        let urlFinal
-        let dirProxy = '/srv-privado-viajaenbus-web/rest/usuario/cambioPassowrd'
-        this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
-        return this.http.post<any[]>(urlFinal, params);
-    }
 
     usuarioRecuperarPassword(params: any): Observable<any[]> {
         let urlFinal

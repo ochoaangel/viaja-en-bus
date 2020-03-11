@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { element } from 'protractor';
+import { MyserviceService } from 'src/app/service/myservice.service';
 
 @Component({
   selector: 'app-my-data',
@@ -8,6 +9,11 @@ import { element } from 'protractor';
 })
 export class MyDataPage implements OnInit {
 
+  pageMyDataAsRegister = false
+  nombre = ''
+  usuario
+
+  loading = false
   myData = {
     rut: "1-9",
     email: "marco.betancourt@clamber.cl",
@@ -27,12 +33,16 @@ export class MyDataPage implements OnInit {
 
     dia: '',
     mes: '',
-    anio: ''
+    anio: '',
+    male:false,
+    female:false,
+
 
 
 
 
   }
+
   // {
   //   "rut":"1-9",
   //   "email":"marco.betancourt@clamber.cl",
@@ -44,9 +54,44 @@ export class MyDataPage implements OnInit {
   //   "fechaNacimiento":"01-01-1980",
   //   "password":"123456"
   // }
-  constructor() { }
+  constructor(
+    private mys: MyserviceService
+  ) { }
 
   ngOnInit() {
+
+    this.mys.checkIfExistUsuario().subscribe(existe => {
+      if (existe) {
+        console.log('Usuario Registrado, Entonces Modifica');
+        this.pageMyDataAsRegister = false
+        this.loading = true
+        this.mys.getUser().subscribe(usuario => {
+          this.loading = false
+          this.usuario = usuario
+          if (usuario.usuario.nombre && usuario.usuario.apellidoPaterno) {
+            this.nombre = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno
+            console.log('this.nombre',this.nombre);
+          } else {
+            this.nombre = 'Usuario'
+            console.log('this.nombre2',this.nombre);
+
+          }
+        })
+
+      } else {
+        console.log('Usuario NO Registrado, Entonces Registra');
+        this.pageMyDataAsRegister = true
+        this.nombre = 'Usuario'
+        console.log('this.nombre',this.nombre);
+      }
+    })
+
+
+
+
+
+
+
   }
 
   validar(forma) {

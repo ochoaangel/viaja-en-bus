@@ -29,7 +29,11 @@ export class MyChangePasswordPage implements OnInit {
     this.loading = true
     this.mys.getUser().subscribe(usuario => {
       this.loading = false
-      this.nombre = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno
+      if (usuario.usuario.nombre && usuario.usuario.apellidoPaterno) {
+        this.nombre = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno
+      } else {
+        this.nombre = 'Usuario'
+      }
       this.myData.email = usuario.usuario.email
     })
   }

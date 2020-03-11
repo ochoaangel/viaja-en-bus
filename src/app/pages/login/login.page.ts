@@ -95,7 +95,7 @@ export class LoginPage implements OnInit {
 
         if (data.exito) {
           this.mys.saveUsuario(data).subscribe(result => {
-            result ? this.router.navigateByUrl('/my-data') : console.log('Error al guardar el usiario');
+            result ? this.router.navigateByUrl('/user-panel') : console.log('Error al guardar el usiario');
           })
         } else {
           this.showNoLoginError = data.mensaje
@@ -111,6 +111,23 @@ export class LoginPage implements OnInit {
     this.showUsuarioError = false
     this.showNoLoginError = ""
   }
+
+
+
+  irAregistro(){
+    this.mys.pageMyDataAsRegister=true;
+    this.router.navigateByUrl('/my-data')
+    console.log('Redirigiendo de login a Registro...'); 
+  }
+  
+  irAolvidoCntrasena(){
+    this.router.navigateByUrl('/recover-password')
+    console.log('Redirigiendo de login a Olvidó contraseña...');
+
+  }
+
+
+
 }
 
 
