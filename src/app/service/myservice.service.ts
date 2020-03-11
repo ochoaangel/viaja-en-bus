@@ -79,6 +79,51 @@ export class MyserviceService {
   } // 
 
 
+    /**
+   * Obtiene todos los post que existen en la api
+   */
+  getUser(): Observable<any> {
+    return new Observable((observer: Subscriber<any>) => {
+
+      // let plt = this.platform.platforms()
+      if (this.platform.platforms().includes('mobileweb')) {
+        // console.log('tiene mobilweb');
+        let usuariox = localStorage.getItem("usuario")
+
+        if (usuariox) {
+          observer.next(JSON.parse(usuariox))
+          observer.complete()
+        } else {
+          observer.next(JSON.parse(usuariox))
+          observer.complete()
+        }
+
+
+      } else {
+        // console.log('No tiene mobilweb');
+
+        this.nativeStorage.getItem('usuario')
+          .then(
+            data => {
+              if (data) {
+                observer.next(data)
+                observer.complete()
+              } else {
+                observer.next(data)
+                observer.complete()
+              }
+            },
+            error => { console.error('error al leer el LocalSorage:', error) }
+          );
+      }
+
+
+
+    });
+  } // 
+
+
+
 
 
 

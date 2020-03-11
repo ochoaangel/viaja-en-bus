@@ -50,7 +50,27 @@ export class LoginPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    // localStorage.setItem("usuario", JSON.stringify({primero:'hola',segundo:'como estas?'}));
+//     localStorage.setItem("usuario", JSON.stringify({
+//     exito: true,
+//     mensaje: "Exito",
+//     token: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJPQ0hPQUFOR0VMQEdNQUlMLkNPTSIsImlhdCI6MTU4Mzg3ODkxNywiZXhwIjoxNTgzODc5ODE3fQ.UoVM7smoFAxnzmgHZU0nhVBrla1WlHg8P3G31SMJjYe_zdyYPsiYbFZ8N02ECVNTpemNHeirCOf4CUbpqQxwx_o0rLgeNJ1dPDZZwCIyTLoGMtMzWbQK7IJ1L-bTqifLb2beNyWKdG72WAtCcBWlo00eXn-PU3J2ANCIK1FySr-Ww5eODj3lol_FvKDDegrXHJPN3r0pscj6nfipxJljk00gfzIe0sBUXCrSzxx3YHlEAcYvPfBnpi5E2xb-DDrRfFusw9MEDAu-K60lGCsZWFVV1dUNiymgfR6KjV8EBlPzciQ2DwMnzK4NMghlFwiQZ7EObLKavMxQ17Ln6E3_6A",
+//     usuario: {
+//         nombre: "angel",
+//         apellidoPaterno: "ochoa",
+//         apellidoMaterno: "alarcon",
+//         email: "ochoaangel@gmail.com",
+//         estado: "ACT",
+//         fechaNacimiento: 435726000000,
+//         fechaCreacion: 1586487600000,
+//         fechaActivacion: 1586487600000,
+//         password: "0934e6db7ebb6786eb83f617ae3e7b8fb2579e6f",
+//         rut: "11111111-1"
+//     },
+//     cambiaClave: false,
+//     urlInicial: null
+// }));
+// console.log('fffffffffffffffffffffffffffffffffff');
+
     this.mys.checkIfExistUsuario().subscribe(exist => {
       exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..'); 
     })

@@ -8,6 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class RecoverPasswordPage implements OnInit {
 
   constructor() { }
+  myData = {
+    email: "MARCO.BETANCOURT@CLAMBER.CL",
+    password: "123456",
+    nuevaPassword: "12345678"
+  }
 
   ngOnInit() {
   }
