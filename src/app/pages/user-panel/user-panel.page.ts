@@ -19,6 +19,7 @@ export class UserPanelPage implements OnInit {
   ngOnInit() {
     this.loading = true
     this.mys.getUser().subscribe(usuario => {
+      console.log('usuario',usuario);
       this.loading = false
       if (usuario.usuario.nombre && usuario.usuario.apellidoPaterno) {
         this.nombre = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno

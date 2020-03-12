@@ -44,7 +44,7 @@ import { NativeStorage } from '@ionic-native/native-storage/ngx';
     ClickOutsideModule,
     HttpClientModule,
     BrowserAnimationsModule,
-    FormsModule,
+    FormsModule, 
     PipesModule,
     TextMaskModule,
     ComponentsModule,
