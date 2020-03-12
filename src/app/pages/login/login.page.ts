@@ -115,7 +115,6 @@ export class LoginPage implements OnInit {
 
 
   irAregistro(){
-    this.mys.pageMyDataAsRegister=true;
     this.router.navigateByUrl('/my-data')
     console.log('Redirigiendo de login a Registro...'); 
   }
