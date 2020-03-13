@@ -9,35 +9,44 @@ import { Router } from '@angular/router';
 })
 export class UserPanelPage implements OnInit {
 
-  nombre='Pedro Perez'
-  loading=false
+  nombre = ''
+  loading = false
 
-  constructor( private mys:MyserviceService,
+  constructor(private mys: MyserviceService,
     private router: Router
-    ) { }
+  ) { 
+    this.mys.checkIfExistUsuario().subscribe(exist => {
+      exist ?null: this.router.navigateByUrl('/login') ;
+    })
+  }
 
   ngOnInit() {
+
+    this.mys.checkIfExistUsuario().subscribe(exist => {
+      exist ?null: this.router.navigateByUrl('/login') ;
+    })
+
     this.loading = true
     this.mys.getUser().subscribe(usuario => {
-      console.log('usuario',usuario);
+      console.log('usuario', usuario);
 
-      usuario?null:this.router.navigateByUrl('/login')
+      usuario ? null : this.router.navigateByUrl('/login')
 
       this.loading = false
       if (usuario.usuario.nombre && usuario.usuario.apellidoPaterno) {
         this.nombre = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno
       } else {
         this.nombre = 'Usuario'
-      } 
-      
+      }
+
     })
   }
 
 
-  cerrarSesion(){
-    this.mys.closeSessionUser().subscribe(data=>{
+  cerrarSesion() {
+    this.mys.closeSessionUser().subscribe(data => {
       console.log('ejetutada closeSessionUser ');
-      this.mys.alertShow('Éxito¡¡','checkmark-circle',', Sesión cerrada exitosamente..')
+      this.mys.alertShow('Éxito¡¡', 'checkmark-circle', ', Sesión cerrada exitosamente..')
       this.router.navigateByUrl('/login')
     })
   }
