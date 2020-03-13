@@ -1,6 +1,6 @@
 ion-header {
   height: 17vh;
-padding-top: 2vh;
+  padding-top: 2vh;
   width: 100vw;
   background-color: var(--ion-color-primary);
   text-align: center;
@@ -62,7 +62,6 @@ padding-top: 2vh;
   font-size: 2vh;
 }
 
-
 input,
 ion-input {
   display: inline-block;
@@ -75,9 +74,7 @@ ion-input {
   --padding-bottom: 0.1rem;
   --background: white;
   font-size: 0.8rem;
-  
 }
-
 
 .ingresar {
   display: inline-block;

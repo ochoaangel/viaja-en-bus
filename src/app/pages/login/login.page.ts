@@ -2,8 +2,12 @@ import { Component, OnInit } from '@angular/core';
 import { IntegradorService } from 'src/app/service/integrador.service';
 import { Router } from '@angular/router';
 import { NativeStorage } from '@ionic-native/native-storage/ngx';
-import { Platform } from '@ionic/angular';
+import { Platform, PopoverController } from '@ionic/angular';
 import { MyserviceService } from 'src/app/service/myservice.service';
+import { PopMenuComponent } from 'src/app/components/pop-menu/pop-menu.component';
+import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
+
+
 
 @Component({
   selector: 'app-login',
@@ -45,35 +49,23 @@ export class LoginPage implements OnInit {
     private nativeStorage: NativeStorage,
     public platform: Platform,
     public mys: MyserviceService,
+    private popoverCtrl: PopoverController,
 
 
-  ) { }
 
-  ngOnInit() {
-//     localStorage.setItem("usuario", JSON.stringify({
-//     exito: true,
-//     mensaje: "Exito",
-//     token: "eyJhbGciOiJSUzI1NiJ9.eyJzdWIiOiJPQ0hPQUFOR0VMQEdNQUlMLkNPTSIsImlhdCI6MTU4Mzg3ODkxNywiZXhwIjoxNTgzODc5ODE3fQ.UoVM7smoFAxnzmgHZU0nhVBrla1WlHg8P3G31SMJjYe_zdyYPsiYbFZ8N02ECVNTpemNHeirCOf4CUbpqQxwx_o0rLgeNJ1dPDZZwCIyTLoGMtMzWbQK7IJ1L-bTqifLb2beNyWKdG72WAtCcBWlo00eXn-PU3J2ANCIK1FySr-Ww5eODj3lol_FvKDDegrXHJPN3r0pscj6nfipxJljk00gfzIe0sBUXCrSzxx3YHlEAcYvPfBnpi5E2xb-DDrRfFusw9MEDAu-K60lGCsZWFVV1dUNiymgfR6KjV8EBlPzciQ2DwMnzK4NMghlFwiQZ7EObLKavMxQ17Ln6E3_6A",
-//     usuario: {
-//         nombre: "angel",
-//         apellidoPaterno: "ochoa",
-//         apellidoMaterno: "alarcon",
-//         email: "ochoaangel@gmail.com",
-//         estado: "ACT",
-//         fechaNacimiento: 435726000000,
-//         fechaCreacion: 1586487600000,
-//         fechaActivacion: 1586487600000,
-//         password: "0934e6db7ebb6786eb83f617ae3e7b8fb2579e6f",
-//         rut: "11111111-1"
-//     },
-//     cambiaClave: false,
-//     urlInicial: null
-// }));
-// console.log('fffffffffffffffffffffffffffffffffff');
+  ) {
 
     this.mys.checkIfExistUsuario().subscribe(exist => {
-      exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..'); 
+      exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..');
     })
+
+  }
+
+  ngOnInit() {
+    this.mys.checkIfExistUsuario().subscribe(exist => {
+      exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..');
+    })
+
 
 
   }
@@ -113,18 +105,46 @@ export class LoginPage implements OnInit {
   }
 
 
-
-  irAregistro(){
+  irAregistro() {
     this.router.navigateByUrl('/my-data')
-    console.log('Redirigiendo de login a Registro...'); 
+    console.log('Redirigiendo de login a Registro...');
   }
-  
-  irAolvidoCntrasena(){
+
+  irAolvidoCntrasena() {
     this.router.navigateByUrl('/recover-password')
     console.log('Redirigiendo de login a Olvidó contraseña...');
-
   }
 
+  async popMenu(event) {
+    console.log('event', event);
+    const popoverMenu = await this.popoverCtrl.create({
+      component: PopMenuComponent,
+      event,
+      mode: 'ios',
+      backdropDismiss: true,
+      cssClass: "popMenu"
+    });
+    await popoverMenu.present();
+
+    // recibo la variable desde el popover y la guardo en data
+    const { data } = await popoverMenu.onWillDismiss();
+    this.router.navigateByUrl(data.destino);
+  }
+
+  async popCart(event) {
+    const popoverCart = await this.popoverCtrl.create({
+      component: PopCartComponent,
+      event,
+      mode: 'ios',
+      backdropDismiss: true,
+      cssClass: "popCart"
+    });
+    await popoverCart.present();
+
+    // recibo la variable desde el popover y la guardo en data
+    // const { data } = await popoverCart.onWillDismiss();
+    // this.router.navigateByUrl(data.destino);
+  }
 
 
 }

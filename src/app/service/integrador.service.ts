@@ -153,20 +153,37 @@ export class IntegradorService {
         this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
         return this.http.post<any[]>(urlFinal, params);
     }
-
+    
     buscarBoletoPorCodigo(params: any): Observable<any[]> {
         let urlFinal
         let dirProxy = '/srv-privado-viajaenbus-web/rest/compra/buscarBoletoPorCodigo'
         this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
         return this.http.post<any[]>(urlFinal, params);
     }
-
+    
     anularBoleto(params: any): Observable<any[]> {
         let urlFinal
         let dirProxy = '/integrador-web/rest/private/venta/anularVenta'
         this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
         return this.http.post<any[]>(urlFinal, params);
     }
+    ///////////////////////////////////////////////////////////////////////////////////
+    //////////////////////// Gestion localidades ///////////////////////////////////////
+    
+    buscarRegionesRegistroDeUsuario(): Observable<any[]> {
+        let urlFinal
+        let dirProxy = '/srv-privado-viajaenbus-web/rest/parametros/buscarRegiones'
+        this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
+        return this.http.post<any[]>(urlFinal, '');
+    }
+    
+    buscarCiudadPorRegionesRegistroDeUsuario(params: any): Observable<any[]> {
+        let urlFinal
+        let dirProxy = '/srv-privado-viajaenbus-web/rest/parametros/buscarCiudadPorRegion'
+        this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
+        return this.http.post<any[]>(urlFinal, params);
+    }
+    
 
 
 

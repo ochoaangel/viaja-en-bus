@@ -29,11 +29,11 @@ export class MyDataPage implements OnInit {
     fechaActivacion: "",
     password: "",
 
-    ocupacion: "",
-    telefono: '',
-    celular: '',
+    telefono: '+56',
+    celular: '+56',
     region: '',
     ciudad: '',
+
 
     dia: '',
     mes: '',
@@ -41,19 +41,98 @@ export class MyDataPage implements OnInit {
     genero: ''
   }
 
+  ciudadesEspecificas = []
+  regionesAll = [
+    {
+      codigo: "15",
+      descripcion: "XV Arica y Parinacota",
+      ordenGeografico: "1"
+    },
+    {
+      codigo: "1",
+      descripcion: "I Tarapacá",
+      ordenGeografico: "2"
+    },
+    {
+      codigo: "2",
+      descripcion: "II Antofagasta",
+      ordenGeografico: "3"
+    },
+    {
+      codigo: "3",
+      descripcion: "III Atacama",
+      ordenGeografico: "4"
+    },
+    {
+      codigo: "4",
+      descripcion: "IV Coquimbo",
+      ordenGeografico: "5"
+    },
+    {
+      codigo: "5",
+      descripcion: "V Valparaíso",
+      ordenGeografico: "6"
+    },
+    {
+      codigo: "13",
+      descripcion: "Región Metropolitana",
+      ordenGeografico: "7"
+    },
+    {
+      codigo: "6",
+      descripcion: "VI O'Higgins",
+      ordenGeografico: "8"
+    },
+    {
+      codigo: "7",
+      descripcion: "VII Maule",
+      ordenGeografico: "9"
+    },
+    {
+      codigo: "8",
+      descripcion: "VIII Biobío",
+      ordenGeografico: "10"
+    },
+    {
+      codigo: "9",
+      descripcion: "IX La Araucanía",
+      ordenGeografico: "11"
+    },
+    {
+      codigo: "14",
+      descripcion: "XIV Los Ríos",
+      ordenGeografico: "12"
+    },
+    {
+      codigo: "10",
+      descripcion: "X Los Lagos",
+      ordenGeografico: "13"
+    },
+    {
+      codigo: "11",
+      descripcion: "XI Aysén",
+      ordenGeografico: "14"
+    },
+    {
+      codigo: "12",
+      descripcion: "XII Magallanes y Antártica",
+      ordenGeografico: "15"
+    }
+  ]
+
   diaOptions = { header: 'Elige el día' };
   mesOptions = { header: 'Elige el mes' };
   anioOptions = { header: 'Elige el año' };
+  regionOptions = { header: 'Elija su región' };
+  cityOptions = { header: 'Elija su ciudad' };
 
   constructor(
     private mys: MyserviceService,
     private integrador: IntegradorService,
     private router: Router,
-
   ) { }
 
   ngOnInit() {
-
     this.mys.checkIfExistUsuario().subscribe(existe => {
       if (existe) {
         console.log('Usuario Registrado, Entonces Modifica');
@@ -78,6 +157,15 @@ export class MyDataPage implements OnInit {
           this.myData.fechaNacimiento = moment(usuario.usuario.fechaNacimiento).format('L')
           this.myData.fechaCreacion = moment(usuario.usuario.fechaCreacion).format('DD-MM-YYYY')
           this.myData.fechaActivacion = moment(usuario.usuario.fechaActivacion).format('DD-MM-YYYY')
+
+
+          this.myData.genero = usuario.usuario.genero
+          this.myData.telefono = usuario.usuario.telefono
+          this.myData.celular = usuario.usuario.celular
+          this.myData.ciudad = usuario.usuario.ciudad
+          this.myData.region = usuario.usuario.region
+
+
 
           if (usuario.usuario.nombre && usuario.usuario.apellidoPaterno) {
             this.nombreUsuario = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno
@@ -109,6 +197,7 @@ export class MyDataPage implements OnInit {
   }
 
   validar(forma) {
+    console.log('forma', forma);
     this.myData.fechaNacimiento = `${this.myData.dia}-${this.myData.mes}-${this.myData.anio}`
     console.log('this.myData.fechaNacimiento', this.myData.fechaNacimiento);
 
@@ -124,8 +213,8 @@ export class MyDataPage implements OnInit {
       this.mys.alertShow('Verifique!! ', 'alert', 'Verifique que la fecha de nacimiento sea válida')
     } else if (forma.controls.email.errors) {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca un email válido')
-    } else if (forma.controls.ocupacion.errors) {
-      this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca ocupacion válida')
+      // } else if (forma.controls.ocupacion.errors) {
+      //   this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca ocupacion válida')
     } else if (forma.controls.telefono.errors) {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca un teléfono válido')
     } else if (forma.controls.celular.errors) {
@@ -138,6 +227,7 @@ export class MyDataPage implements OnInit {
       console.log('fiiiiiiiiinnnnnnnnnnnnnnnn');
 
       let objetoAenviar = {
+        rut: this.myData.rut,
         nombre: this.myData.nombre,
         apellidoPaterno: this.myData.apellidoPaterno,
         apellidoMaterno: this.myData.apellidoMaterno,
@@ -146,7 +236,17 @@ export class MyDataPage implements OnInit {
         fechaCreacion: this.myData.fechaCreacion,
         fechaNacimiento: this.myData.fechaNacimiento,
         password: this.myData.password,
-        rut: this.myData.rut,
+
+        genero: this.myData.genero,
+        telefono: this.myData.telefono,
+        celular: this.myData.celular,
+        ciudad: this.myData.ciudad
+        // profesion: this.m  yData.profesion,
+        // areaFono: this.myData.areaFono,
+        // areaCelular: this.myData.areaCelular,
+
+
+
       }
       this.loading = true
       this.integrador.usuarioGuardar(objetoAenviar).subscribe((respuesta: any) => {
@@ -179,7 +279,14 @@ export class MyDataPage implements OnInit {
     return str.toLowerCase().replace(/\b(\w)/g, s => s.toUpperCase());
   }
 
-
+  cambioDeRegion() {
+    this.loading = true
+    console.log('cambiooooo', this.myData.region);
+    this.integrador.buscarCiudadPorRegionesRegistroDeUsuario({ codigo: this.myData.region }).subscribe(ciudades => {
+      this.loading = false
+      this.ciudadesEspecificas = ciudades
+    })
+  }
 } // fin clase ppal
 
 

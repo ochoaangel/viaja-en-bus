@@ -1,6 +1,30 @@
 <ion-header no-border>
 
   <div class="cabeceraGeneral">
+    <div style="display: inline; width: 5%;"></div>
+
+    <div style="display: inline; width: 10%;border-color: white; border: solid
+      1px;margin: 5px;">
+      Es
+    </div>
+
+    <div style="width: 60%; height: 100%; display: flex; align-items: center;
+      justify-content: center;" routerLink="/home">
+      <img src="assets/images/LogoViaja.png"
+        style="object-fit: scale-down;position: relative; z-index: 10;height: 7vh; margin-top: 0.6rem;margin-left: 8vw;">
+    </div>
+
+    <div style="display: inline; width: 10%;text-align: -webkit-right; margin-left: 18px;" (click)="popCart($event)">
+      <img src="assets/icon/Carrito-compra.png" style="height: 1.8rem;">
+    </div>
+
+    <div style="display: inline; width: 10%" (click)="popMenu($event)">
+      <ion-icon name="md-menu" style="font-size: 25px;padding-top: 5px;"></ion-icon>
+    </div>
+
+    <div style="display: inline; width: 5%;"></div>
+  </div>
+  <!-- <div class="cabeceraGeneral">
 
     <div style="display: inline; width: 5%;"></div>
 
@@ -21,7 +45,7 @@
 
     <div style="display: inline; width: 5%;"></div>
 
-  </div>
+  </div> -->
 
 
 
