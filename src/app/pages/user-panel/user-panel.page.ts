@@ -20,6 +20,9 @@ export class UserPanelPage implements OnInit {
     this.loading = true
     this.mys.getUser().subscribe(usuario => {
       console.log('usuario',usuario);
+
+      usuario?null:this.router.navigateByUrl('/login')
+
       this.loading = false
       if (usuario.usuario.nombre && usuario.usuario.apellidoPaterno) {
         this.nombre = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno
