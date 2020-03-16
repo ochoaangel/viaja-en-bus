@@ -138,7 +138,7 @@
                 <ion-col size="6" class="columnaDoble">
                   <div class="overIonInput" *ngIf="pageMyDataAsRegister">
                     <ion-input (keyup)="myKeyUp('clave')" placeholder="Clave para iniciar sesión" type="text" name="clave"
-                      minlength="4" #clave [(ngModel)]="myData.clave" required></ion-input>
+                      minlength="8" #clave [(ngModel)]="myData.clave" required></ion-input>
                   </div>
                 </ion-col>
               </ion-row>

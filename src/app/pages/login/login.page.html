@@ -86,7 +86,7 @@
 
                   <div class="overIonInput">
                     <ion-input (keyup)="myKeyUp('password')" placeholder="Contraseña" type="password" name="password"
-                      minlength="4" required #password [(ngModel)]="mydata.password"></ion-input>
+                      minlength="8" required #password [(ngModel)]="mydata.password"></ion-input>
 
                   </div>
                   <div style="display: flex;justify-content: center;" *ngIf="showNoLoginError">

@@ -215,7 +215,7 @@ export class MyDataPage implements OnInit {
     } else if (forma.controls.email.errors) {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca un email válido')
     } else if (forma.controls.clave.errors && this.pageMyDataAsRegister) {
-      this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una clave para inicio de sesión válida y mayor a 4 caracteres')
+      this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una clave para inicio de sesión válida y mayor o igual a 8 caracteres')
       // } else if (forma.controls.ocupacion.errors) {
       //   this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca ocupacion válida')
     } else if (forma.controls.telefono.errors) {

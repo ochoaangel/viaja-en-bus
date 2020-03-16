@@ -42,7 +42,7 @@ export class MyChangePasswordPage implements OnInit {
 
 
   validar(forma) {
-    if (forma.invalid) { this.mys.alertShow('Verifique!! ', 'alert', 'Complete todos los campos y deben ser mínimo 4 caracteres') }
+    if (forma.invalid) { this.mys.alertShow('Verifique!! ', 'alert', 'Complete todos los campos y deben ser mínimo 8 caracteres') }
     else if (this.myData.nuevaPassword !== this.myData.nuevaPasswordReperida) { this.mys.alertShow('Verifique!! ', 'alert', 'Las nuevas password deben coincidir..') }
     else {
 
