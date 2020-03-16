@@ -360,15 +360,15 @@ export class PaymentMethodsPage implements OnInit {
     { pais: 'Zimbábue', codigo: '+263' }
   ]
 
-  ionViewWillEnter() {
-    this.mys.checkIfExistUsuario().subscribe(exist => {
-      if (!exist) {
-        console.log('No existe usuario logeado')
-        this.mys.alertShow('Atención!!','alert', 'Es necesario iniciar sesión para realizar un pago..')
-        this.router.navigateByUrl('/login')
-      } 
-    })
-  }
+  // ionViewWillEnter() {
+  //   this.mys.checkIfExistUsuario().subscribe(exist => {
+  //     if (!exist) {
+  //       console.log('No existe usuario logeado')
+  //       this.mys.alertShow('Atención!!','alert', 'Es necesario iniciar sesión para realizar un pago..')
+  //       this.router.navigateByUrl('/login')
+  //     } 
+  //   })
+  // }
 
 
   ngOnInit() {
