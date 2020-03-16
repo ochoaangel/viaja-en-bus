@@ -136,10 +136,10 @@
                   </div>
                 </ion-col>
                 <ion-col size="6" class="columnaDoble">
-                  <!-- <div class="overIonInput">
-                    <ion-input (keyup)="myKeyUp('profesion')" placeholder="Profesión" type="text" name="profesion"
-                      minlength="3" #profesion [(ngModel)]="myData.profesion" required></ion-input>
-                  </div> -->
+                  <div class="overIonInput" *ngIf="pageMyDataAsRegister">
+                    <ion-input (keyup)="myKeyUp('clave')" placeholder="Clave para iniciar sesión" type="text" name="clave"
+                      minlength="4" #clave [(ngModel)]="myData.clave" required></ion-input>
+                  </div>
                 </ion-col>
               </ion-row>
 
@@ -192,7 +192,7 @@
 
                   <ion-select [interfaceOptions]="cityOptions" class=" ion-no-padding ion-no-margin" multiple="false"
                     placeholder="Seleccione Ciudad" cancel-text="Cancelar" [(ngModel)]="myData.ciudad" #ciudad name='ciudad'
-                    required [disabled]="loading">
+                    required [disabled]="loading|| !this.myData.region">
                     <ion-select-option *ngFor="let ciudades of ciudadesEspecificas" value="{{ciudades.codigo}}">
                       {{ciudades.nombre}}
                     </ion-select-option>

@@ -25,7 +25,9 @@ export class MyChangePasswordPage implements OnInit {
     private integradorService: IntegradorService,
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewWillEnter() {
     this.loading = true
     this.mys.getUser().subscribe(usuario => {
       this.loading = false
@@ -37,7 +39,6 @@ export class MyChangePasswordPage implements OnInit {
       this.myData.email = usuario.usuario.email
     })
   }
-
 
 
   validar(forma) {

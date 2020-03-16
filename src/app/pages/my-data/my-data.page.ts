@@ -28,6 +28,7 @@ export class MyDataPage implements OnInit {
     fechaNacimiento: "",
     fechaActivacion: "",
     password: "",
+    clave: "",
 
     telefono: '+56',
     celular: '+56',
@@ -132,7 +133,9 @@ export class MyDataPage implements OnInit {
     private router: Router,
   ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewWillEnter() {
     this.mys.checkIfExistUsuario().subscribe(existe => {
       if (existe) {
         console.log('Usuario Registrado, Entonces Modifica');
@@ -182,13 +185,11 @@ export class MyDataPage implements OnInit {
         console.log('this.nombreUsuario', this.nombreUsuario);
       }
     })
-
   }
 
 
-
   myKeyUp(elemento) {
-    console.log('presionado elemento: ', elemento);
+    // console.log('presionado elemento: ', elemento);
   }
 
   genero($event) {
@@ -213,6 +214,8 @@ export class MyDataPage implements OnInit {
       this.mys.alertShow('Verifique!! ', 'alert', 'Verifique que la fecha de nacimiento sea válida')
     } else if (forma.controls.email.errors) {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca un email válido')
+    } else if (forma.controls.clave.errors && this.pageMyDataAsRegister) {
+      this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una clave para inicio de sesión válida y mayor a 4 caracteres')
       // } else if (forma.controls.ocupacion.errors) {
       //   this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca ocupacion válida')
     } else if (forma.controls.telefono.errors) {
@@ -244,10 +247,10 @@ export class MyDataPage implements OnInit {
         // profesion: this.m  yData.profesion,
         // areaFono: this.myData.areaFono,
         // areaCelular: this.myData.areaCelular,
-
-
-
       }
+
+      this.pageMyDataAsRegister ? objetoAenviar['clave'] = this.myData.clave : null
+
       this.loading = true
       this.integrador.usuarioGuardar(objetoAenviar).subscribe((respuesta: any) => {
         this.loading = false
@@ -263,6 +266,8 @@ export class MyDataPage implements OnInit {
         console.log('respuesta', respuesta);
       })
 
+      // console.log('objetoAenviar', objetoAenviar);
+      // console.log('this.myData', this.myData);
 
 
     }

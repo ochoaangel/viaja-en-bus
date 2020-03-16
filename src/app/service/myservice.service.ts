@@ -46,7 +46,15 @@ export class MyserviceService {
     return new Observable((observer: Subscriber<any>) => {
 
       let plt = this.platform.platforms()
-      if (plt.includes('mobileweb')||plt.includes('desktop')) {
+
+      // let msj=''
+      // plt.forEach(element => {
+      //   msj = msj + element+'/'
+      // });
+      // alert(msj)
+
+
+      if (plt.includes('mobileweb') || plt.includes('desktop')) {
         // console.log('tiene mobilweb');
 
         if (localStorage.getItem("usuario")) {
@@ -72,7 +80,7 @@ export class MyserviceService {
                 observer.complete()
               }
             },
-            error => { console.error('error al leer el LocalSorage:', error) }
+            error => { console.error('error al leer el LocalSorage:::', error) }
           );
       }
 
@@ -89,7 +97,7 @@ export class MyserviceService {
     return new Observable((observer: Subscriber<any>) => {
 
       let plt = this.platform.platforms()
-      if (plt.includes('mobileweb')||plt.includes('desktop')) {
+      if (plt.includes('mobileweb') || plt.includes('desktop')) {
         console.log('tiene mobilweb');
         let usuariox = localStorage.getItem("usuario")
 
@@ -132,8 +140,8 @@ export class MyserviceService {
     return new Observable((observer: Subscriber<any>) => {
 
       let plt = this.platform.platforms()
-      console.log('plt',plt);
-      if (this.platform.platforms().includes('mobileweb')) {
+      console.log('plt', plt);
+      if (plt.includes('mobileweb') || plt.includes('desktop')) {
 
         localStorage.removeItem('usuario');
 
@@ -179,7 +187,7 @@ export class MyserviceService {
     return new Observable((observer: Subscriber<any>) => {
 
       let plt = this.platform.platforms()
-      if (plt.includes('mobileweb')||plt.includes('desktop')) {
+      if (plt.includes('mobileweb') || plt.includes('desktop')) {
         // console.log('tiene mobilweb');
 
         localStorage.setItem("usuario", JSON.stringify(datosUsuario));
@@ -371,7 +379,6 @@ export class MyserviceService {
         break;
     }
 
-    // return `${diaL},${diaN} ${mesL} ${anoNumero} `;
     return { diaL, mesL, diaN, mesN, anoN, horaH, horaM };
   }
 

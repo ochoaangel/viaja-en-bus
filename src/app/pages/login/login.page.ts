@@ -50,29 +50,18 @@ export class LoginPage implements OnInit {
     public platform: Platform,
     public mys: MyserviceService,
     private popoverCtrl: PopoverController,
+  ) { }
 
+  ngOnInit() { }
 
-
-  ) {
-
+  ionViewWillEnter() {
     this.mys.checkIfExistUsuario().subscribe(exist => {
-      exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..');
+      exist ? null : console.log('No existe usuario logeado..');
     })
-
   }
 
-  ngOnInit() {
-    this.mys.checkIfExistUsuario().subscribe(exist => {
-      exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..');
-    })
 
-
-
-  }
-
-  enviar() {
-
-  }
+  enviar() { }
 
   validar(forma) {
     console.log(forma)

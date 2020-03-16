@@ -14,16 +14,14 @@ export class UserPanelPage implements OnInit {
 
   constructor(private mys: MyserviceService,
     private router: Router
-  ) { 
-    this.mys.checkIfExistUsuario().subscribe(exist => {
-      exist ?null: this.router.navigateByUrl('/login') ;
-    })
-  }
+  ) { }
 
-  ngOnInit() {
+  ngOnInit() { }
+
+  ionViewWillEnter() {
 
     this.mys.checkIfExistUsuario().subscribe(exist => {
-      exist ?null: this.router.navigateByUrl('/login') ;
+      exist ? null : this.router.navigateByUrl('/login');
     })
 
     this.loading = true
@@ -41,6 +39,7 @@ export class UserPanelPage implements OnInit {
 
     })
   }
+
 
 
   cerrarSesion() {
