@@ -115,9 +115,9 @@
 
                     <ion-radio-group name="genero" allow-empty-selection="false" [(ngModel)]="myData.genero">
                       <div style="display: flex;flex-direction: row;justify-content: center;align-items: center;">
-                        <ion-radio value='F' style="margin-left: 1vw;"></ion-radio>
+                        <ion-radio mode="md" value='F' style="margin-left: 1vw;"></ion-radio>
                         <div style="font-size: 0.8rem;">Femenino</div>
-                        <ion-radio value='M' style="margin-left: 1vw;"></ion-radio>
+                        <ion-radio mode="md" value='M' style="margin-left: 1vw;"></ion-radio>
                         <div style="font-size: 0.8rem;">Masculino</div>
                       </div>
                     </ion-radio-group>
@@ -224,19 +224,20 @@
   <div
     style=" width: 100%; display: flex;align-items: center;justify-content: center; background-color: var(--ion-color-primary);">
 
-    <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" routerLink="/login" >
+    <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" routerLink="/login" *ngIf="pageMyDataAsRegister" >
       <ion-icon src="assets/icon/previous.svg"></ion-icon>
       <div style="display: inline; text-align: left ;padding-left: 10px; text-transform: none;">Regresar</div>
     </ion-button>
-    <!-- <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" routerLink="/user-panel" *ngIf="!pageMyDataAsRegister">
+
+    <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" routerLink="/user-panel" *ngIf="!pageMyDataAsRegister">
       <ion-icon src="assets/icon/previous.svg"></ion-icon>
       <div style="display: inline; text-align: left ;padding-left: 10px; text-transform: none;">Regresar</div>
-    </ion-button> -->
+    </ion-button>
 
     <!-- <ion-button fill="clear" style="color: white;  width: 50%; outline: none;" routerLink="/user-panel">
       <div style="display: inline;  text-align: right;padding-right: 7px;  text-transform: none">Continuar</div>
       <ion-icon src="assets/icon/previous.svg" style="transform: rotate(180deg);"></ion-icon>
     </ion-button> -->
-
+|
   </div>
 </ion-footer>

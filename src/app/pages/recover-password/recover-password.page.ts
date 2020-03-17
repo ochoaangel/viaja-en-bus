@@ -35,9 +35,10 @@ export class RecoverPasswordPage implements OnInit {
         if (data.exito) {
           this.mys.alertShow('Éxito !!', 'checkmark-circle', data.mensaje)
           this.router.navigateByUrl('/login')
-        } else { }
-        this.mys.alertShow('Verifique !!', 'alert', data.mensaje)
-        this.myData.email = ''
+        } else { 
+          this.mys.alertShow('Verifique !!', 'alert', data.mensaje)
+          this.myData.email = ''
+        }
       })
 
     } else {

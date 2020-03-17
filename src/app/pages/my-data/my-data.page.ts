@@ -5,6 +5,7 @@ import * as _ from 'underscore';
 import * as moment from 'moment';
 import { IntegradorService } from 'src/app/service/integrador.service';
 import { Router } from '@angular/router';
+import { runInThisContext } from 'vm';
 
 @Component({
   selector: 'app-my-data',
@@ -136,6 +137,33 @@ export class MyDataPage implements OnInit {
   ngOnInit() { }
 
   ionViewWillEnter() {
+
+
+    this.myData = {
+      rut: "",
+      email: "",
+      nombre: "",
+      apellidoMaterno: "",
+      apellidoPaterno: "",
+      estado: "ACT",
+      fechaCreacion: "",
+      fechaNacimiento: "",
+      fechaActivacion: "",
+      password: "",
+      clave: "",
+
+      telefono: '+56',
+      celular: '+56',
+      region: '',
+      ciudad: '',
+
+
+      dia: '',
+      mes: '',
+      anio: '',
+      genero: ''
+    }
+
     this.mys.checkIfExistUsuario().subscribe(existe => {
       if (existe) {
         console.log('Usuario Registrado, Entonces Modifica');
@@ -153,7 +181,7 @@ export class MyDataPage implements OnInit {
           this.myData.estado = usuario.usuario.estado
           this.myData.rut = usuario.usuario.rut
 
-          this.myData.dia = moment(usuario.usuario.fechaNacimiento).format('D')
+          this.myData.dia = parseInt(moment(usuario.usuario.fechaNacimiento).format('D'))+1+''
           this.myData.mes = moment(usuario.usuario.fechaNacimiento).format('M')
           this.myData.anio = moment(usuario.usuario.fechaNacimiento).format('YYYY')
 
@@ -161,14 +189,15 @@ export class MyDataPage implements OnInit {
           this.myData.fechaCreacion = moment(usuario.usuario.fechaCreacion).format('DD-MM-YYYY')
           this.myData.fechaActivacion = moment(usuario.usuario.fechaActivacion).format('DD-MM-YYYY')
 
-
           this.myData.genero = usuario.usuario.genero
           this.myData.telefono = usuario.usuario.telefono
           this.myData.celular = usuario.usuario.celular
           this.myData.ciudad = usuario.usuario.ciudad
+
+
           this.myData.region = usuario.usuario.region
 
-
+          this.cambioDeRegion()
 
           if (usuario.usuario.nombre && usuario.usuario.apellidoPaterno) {
             this.nombreUsuario = usuario.usuario.nombre + ' ' + usuario.usuario.apellidoPaterno
@@ -177,6 +206,7 @@ export class MyDataPage implements OnInit {
             this.nombreUsuario = 'Usuario'
             console.log('this.nombre2', this.nombreUsuario);
           }
+          console.log('this.myData',this.myData)
         })
 
       } else {
@@ -214,7 +244,7 @@ export class MyDataPage implements OnInit {
       this.mys.alertShow('Verifique!! ', 'alert', 'Verifique que la fecha de nacimiento sea válida')
     } else if (forma.controls.email.errors) {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca un email válido')
-    } else if (forma.controls.clave.errors && this.pageMyDataAsRegister) {
+    } else if (forma.controls.clave && forma.controls.clave.errors && this.pageMyDataAsRegister) {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una clave para inicio de sesión válida y mayor o igual a 8 caracteres')
       // } else if (forma.controls.ocupacion.errors) {
       //   this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca ocupacion válida')
@@ -243,21 +273,49 @@ export class MyDataPage implements OnInit {
         genero: this.myData.genero,
         telefono: this.myData.telefono,
         celular: this.myData.celular,
-        ciudad: this.myData.ciudad
+        ciudad: this.myData.ciudad,
         // profesion: this.m  yData.profesion,
         // areaFono: this.myData.areaFono,
         // areaCelular: this.myData.areaCelular,
+        region: this.myData.region
       }
 
       this.pageMyDataAsRegister ? objetoAenviar['clave'] = this.myData.clave : null
-
+      console.log('guardado usuario:', objetoAenviar);
       this.loading = true
       this.integrador.usuarioGuardar(objetoAenviar).subscribe((respuesta: any) => {
         this.loading = false
 
         if (respuesta.exito) {
-          this.mys.alertShow('Éxito!! ', 'checkmark-circle', respuesta.mensaje)
-          this.router.navigateByUrl('/user-panel')
+
+
+          this.usuario.usuario.rut = objetoAenviar.rut
+          this.usuario.usuario.nombre = objetoAenviar.nombre
+          this.usuario.usuario.apellidoPaterno = objetoAenviar.apellidoPaterno
+          this.usuario.usuario.apellidoMaterno = objetoAenviar.apellidoMaterno
+          this.usuario.usuario.email = objetoAenviar.email
+          this.usuario.usuario.estado = objetoAenviar.estado
+          this.usuario.usuario.genero = objetoAenviar.genero
+          this.usuario.usuario.telefono = objetoAenviar.telefono
+          this.usuario.usuario.celular = objetoAenviar.celular
+          this.usuario.usuario.ciudad = objetoAenviar.ciudad
+          this.usuario.usuario.region = objetoAenviar.region
+
+          this.usuario.usuario.fechaNacimiento = parseInt(moment(objetoAenviar.fechaNacimiento, "DD-MM-YYYY").format('x'))
+
+          this.mys.closeSessionUser().subscribe(cerrado => {
+            this.mys.saveUsuario(this.usuario).subscribe(guardado => {
+              if (guardado) {
+                console.log('guardadooooooo');
+              } else {
+                console.log('NOOO guardadooooooo');
+              }
+            })
+          })
+
+          console.log('this.usuario', this.usuario);
+
+
         } else {
           this.mys.alertShow('Error ', 'alert', respuesta.mensaje || 'Hubo un error al guardar los datos del usuario..')
         }
