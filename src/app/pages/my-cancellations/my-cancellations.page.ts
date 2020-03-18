@@ -213,6 +213,7 @@ export class MyCancellationsPage implements OnInit {
           rutTitular: this.myData.rutTitular,
           integrador: 1004
         }
+        
         this.loading = true
         this.integrador.anularBoleto(data).subscribe((resultado:any) => {
           this.loading = false

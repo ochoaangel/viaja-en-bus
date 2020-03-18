@@ -56,7 +56,7 @@ export class LoginPage implements OnInit {
 
   ionViewWillEnter() {
     this.mys.checkIfExistUsuario().subscribe(exist => {
-      exist ? null : console.log('No existe usuario logeado..');
+      exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..');
     })
   }
 
