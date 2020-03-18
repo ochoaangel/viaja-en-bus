@@ -14,6 +14,114 @@ export class MyTicketsPage implements OnInit {
   transaccionesAll = []
   usuario
   loading = 0
+  nBoletosSeleccionados = 0
+
+  tipoDeCuentaOptions = { header: 'Tipo de Cuenta' }
+  bancoOptions = { header: 'Banco' }
+
+  myData = {
+    tiposDeCuentas: [
+      {
+        codigo: "CuentaCorriente",
+        nombre: "Cuenta Corriente"
+      },
+      {
+        codigo: "CuentaVista",
+        nombre: "Cuenta Vista"
+      }
+    ],
+    tipoDeCuenta: '',
+    codigoBoletoAconsultar: '',
+    numeroDeCuenta: '',
+    bancos: [
+      {
+        codigo: "Banco BICE",
+        nombre: "Banco BICE"
+      },
+      {
+        codigo: "BBVA",
+        nombre: "BBVA"
+      },
+      {
+        codigo: "Banco Btg Pactual Chile",
+        nombre: "Banco Btg Pactual Chile"
+      },
+      {
+        codigo: "Banco Consorcio",
+        nombre: "Banco Consorcio"
+      },
+      {
+        codigo: "Banco de Chile",
+        nombre: "Banco de Chile"
+      },
+      {
+        codigo: "BCI",
+        nombre: "BCI"
+      },
+      {
+        codigo: "Banco Estado",
+        nombre: "Banco Estado"
+      },
+      {
+        codigo: "Banco do Brasil S.A.",
+        nombre: "Banco do Brasil S.A."
+      },
+      {
+        codigo: "Banco Falabella",
+        nombre: "Banco Falabella"
+      },
+      {
+        codigo: "Banco Internacional",
+        nombre: "Banco Internacional"
+      },
+      {
+        codigo: "Banco Itaú Chile",
+        nombre: "Banco Itaú Chile"
+      },
+      {
+        codigo: "Banco Penta",
+        nombre: "Banco Penta"
+      },
+      {
+        codigo: "Banco Ripley",
+        nombre: "Banco Ripley"
+      },
+      {
+        codigo: "Banco Santander",
+        nombre: "Banco Santander"
+      },
+      {
+        codigo: "Banco Security",
+        nombre: "Banco Security"
+      },
+      {
+        codigo: "Corpbanca",
+        nombre: "Corpbanca"
+      },
+      {
+        codigo: "Deutsche Bank Chile",
+        nombre: "Deutsche Bank Chile"
+      },
+      {
+        codigo: "HSBC Bank Chile",
+        nombre: "HSBC Bank Chile"
+      },
+      {
+        codigo: "JP Morgan Chase Bank",
+        nombre: "JP Morgan Chase Bank"
+      },
+      {
+        codigo: "Rabobank Chile",
+        nombre: "Rabobank Chile"
+      },
+      {
+        codigo: "Scotiabank",
+        nombre: "Scotiabank"
+      }
+    ],
+    rutTitular: '',
+    banco: ''
+  }
   constructor(
     private mys: MyserviceService,
     private integrador: IntegradorService,
@@ -39,12 +147,17 @@ export class MyTicketsPage implements OnInit {
         } else {
           this.transaccionesAll.forEach(transaccion => {
             // buscando cada boleto de cada transaccion
+            this.boletosAll = []
             this.loading++
             this.integrador.buscarBoletoPorCodigo({ email: usuario.usuario.email, codigo: transaccion.codigo }).subscribe(boletos => {
               this.loading--
-              boletos.forEach(element => { element['selected'] = false });
-              this.boletosAll = [...this.boletosAll, ...boletos]
-              console.log('this.boletosAll',this.boletosAll);
+              boletos.forEach(element => {
+                if (element.estado === 'ACT') {
+                  element['selected'] = false
+                  this.boletosAll.push(element)
+                }
+              });
+              console.log('this.boletosAll', this.boletosAll);
             })
           });
 
@@ -55,12 +168,74 @@ export class MyTicketsPage implements OnInit {
     })
   }
 
-  anular(){
-    console.log('this.boletosAll',this.boletosAll);
+  anular() {
+    // console.log('this.boletosAll', this.boletosAll);
+    // console.log('',);
+    if (!this.myData.rutTitular) {
+      this.mys.alertShow('Verifique', 'alert', 'Ingrese rut del Titular')
+    } else if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(this.myData.rutTitular)) {
+      this.mys.alertShow('Verifique', 'alert', 'Ingrese rut del Titular válido, sin puntos ni espacios')
+    } else if (!this.myData.banco) {
+      this.mys.alertShow('Verifique', 'alert', 'Seleccione un Banco')
+    } else if (!this.myData.tipoDeCuenta) {
+      this.mys.alertShow('Verifique', 'alert', 'Seleccione tipo de cuenta')
+    } else if (!this.myData.numeroDeCuenta) {
+      this.mys.alertShow('Verifique', 'alert', 'Ingrese un numero de cuenta')
+    } else {
+
+      console.log('listooooooxxxxx');
+      // this.ionViewWillEnter()
+      let contador = 0
+      this.boletosAll.forEach(boleto => {
+        // selecciona los seleccionado y activos
+        if (boleto.selected) {
+          contador++
+          let data = {
+            boleto: boleto.boleto,
+            codigoTransaccion: boleto.codigo,
+            rutSolicitante: this.usuario.usuario.rut,
+            usuario: `${this.usuario.usuario.nombre} ${this.usuario.usuario.apellidoPaterno}`,
+            banco: this.myData.banco,
+            tipoCuenta: this.myData.tipoDeCuenta,
+            numeroCuenta: this.myData.numeroDeCuenta,
+            rutTitular: this.myData.rutTitular,
+            integrador: boleto.integrador
+          }
+          // alert(contador)
+          // console.log('data', contador, data);
+          this.loading++
+          this.integrador.anularBoleto(data).subscribe((resultado: any) => {
+            this.loading--
+            console.log('resultado', resultado);
+            if (resultado.exito) {
+              alert(`Boleto ${data.boleto} \nFecha:${boleto.imprimeVoucher.fechaSalida}\nHora:${boleto.imprimeVoucher.horaSalida}\nAsiento:${boleto.imprimeVoucher.horaSalida}\n${resultado.mensaje}`)
+            } else {
+              alert(`Boleto ${data.boleto} \nFecha:${boleto.imprimeVoucher.fechaSalida}\nHora:${boleto.imprimeVoucher.horaSalida}\nAsiento:${boleto.imprimeVoucher.horaSalida}\n${resultado.mensaje}`)
+            }
+          })
+
+          if (contador === this.nBoletosSeleccionados) {
+            this.nBoletosSeleccionados = 0
+            this.ionViewWillEnter()
+          }
+        }
+      });
+    }
+
   }
 
   ionViewWillLeave() {
-    this.boletosAll=[]
+    this.boletosAll = []
+  }
+
+  checkboxChanged() {
+    console.log('CHANGED_this.boletosAll', this.boletosAll);
+    let nSelected = 0
+    this.boletosAll.forEach(element => {
+      element.selected ? nSelected++ : null
+    });
+    this.nBoletosSeleccionados = nSelected
+    console.log('nSelected', nSelected);
   }
 
 }

@@ -62,15 +62,6 @@ padding-top: 2vh;
   font-size: 2vh;
 }
 
-input {
-  display: inline-block;
-  box-sizing: content-box;
-  padding: 7px 10px;
-  border: 1px solid #ff9900;
-  -webkit-border-radius: 27px;
-  border-radius: 15px;
-  width: 60vw;
-}
 
 .ingresar {
   display: inline-block;
@@ -109,3 +100,37 @@ input {
   margin-top: 5px;
 }
 
+
+
+input,
+ion-input {
+  display: inline-block;
+  box-sizing: content-box;
+  padding: 7px 10px;
+  -webkit-border-radius: 27px;
+  border-radius: 15px;
+  width: 60vw;
+  --padding-top: 0.3rem;
+  --padding-bottom: 0.3rem;
+  --background: white;
+  font-size: 0.8rem;
+}
+
+ion-select {
+  border-radius: 6px;
+  // width: 13vw;
+  background-color: white;
+  height: 7vw;
+  padding: 4px 0px 0px 5px;
+  border: 1px solid var(--ion-color-primary);
+}
+.overIonInput {
+  border: 1px solid var(--ion-color-primary);
+  // padding: 0px 1rem;
+  display: flex;
+  justify-content: center;
+  border-radius: 5px;
+  // margin: 0 10vw;
+  // margin-bottom: 1rem;
+  width: -webkit-fill-available;
+}

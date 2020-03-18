@@ -27,7 +27,7 @@ export class MyCancellationsPage implements OnInit {
         nombre: "Cuenta Vista"
       }
     ],
-    tipoDeCuenta: [],
+    tipoDeCuenta: '',
     codigoBoletoAconsultar: '',
     numeroDeCuenta: '',
     bancos: [
@@ -151,18 +151,27 @@ export class MyCancellationsPage implements OnInit {
 
   consultar() {
     console.log('presionado btn consultar', this.myData.codigoBoletoAconsultar);
+    this.nBoletosSeleccionados = 0
 
     if (this.myData.codigoBoletoAconsultar) {
       this.loading = true
       this.integrador.buscarBoletoPorCodigo({ email: this.usuario.usuario.email.toLowerCase(), codigo: this.myData.codigoBoletoAconsultar }).subscribe(boletos => {
         this.loading = false
-        this.listaBoletosAll = boletos
-        console.log('listaBoletosAll', this.listaBoletosAll);
+
+        // this.listaBoletosAll = boletos
+
+
+
+        console.log('boletos',boletos);
         if (boletos.length === 0) {
           this.mys.alertShow('Verifique!!', 'alert', 'No hubo concidencias de su perfil con el código de transacción suministrado..')
         } else {
-          this.listaBoletosAll.forEach(element => {
-            element['selected'] = false
+          this.listaBoletosAll =[]
+          boletos.forEach(element => {
+            if (element.estado==='ACT') {
+              element['selected'] = false
+              this.listaBoletosAll.push(element)
+            }
           });
           console.log('listaBoletosAll', this.listaBoletosAll);
         }
@@ -199,58 +208,69 @@ export class MyCancellationsPage implements OnInit {
     //   integrador: 1004
     // }
 
-    this.listaBoletosAll.forEach(boleto => {
-      if (boleto.selected) {
-
-        let data = {
-          boleto: boleto.boleto,
-          codigoTransaccion: boleto.codigo,
-          rutSolicitante: this.usuario.usuario.rut,
-          usuario: `${this.usuario.usuario.nombre} ${this.usuario.usuario.apellidoPaterno}`,
-          banco: this.myData.banco,
-          tipoCuenta: this.myData.tipoDeCuenta,
-          numeroCuenta: this.myData.numeroDeCuenta,
-          rutTitular: this.myData.rutTitular,
-          integrador: 1004
-        }
-        
-        this.loading = true
-        this.integrador.anularBoleto(data).subscribe((resultado:any) => {
-          this.loading = false
-          console.log('resultado', resultado);
-          if (resultado.exito) {
-            alert(`Boleto ${data.boleto} \n${resultado.mensaje}`)
-          } else {
-            alert(`Boleto ${data.boleto} \n${resultado.mensaje}`)
-          }
-        })
 
 
-      }
-    });
+    // console.log('patron',/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(this.myData.rutTitular));
+
     // console.log('this.listaBoletosAll', this.listaBoletosAll);
     // console.log('usuario', this.usuario);
 
-    let data = {
-      boleto: "",
-      codigoTransaccion: "",
-      rutSolicitante: "",
-      usuario: "",
-      banco: "",
-      tipoCuenta: "",
-      numeroCuenta: "",
-      rutTitular: "",
-      integrador: 1004
+
+    if (!this.myData.rutTitular) {
+      this.mys.alertShow('Verifique', 'alert', 'Ingrese rut del Titular')
+    } else if (!/^[0-9]+[-|‐]{1}[0-9kK]{1}$/.test(this.myData.rutTitular)) {
+      this.mys.alertShow('Verifique', 'alert', 'Ingrese rut del Titular válido, sin puntos ni espacios')
+    } else if (!this.myData.banco) {
+      this.mys.alertShow('Verifique', 'alert', 'Seleccione un Banco')
+    } else if (!this.myData.tipoDeCuenta) {
+      this.mys.alertShow('Verifique', 'alert', 'Seleccione tipo de cuenta')
+    } else if (!this.myData.numeroDeCuenta) {
+      this.mys.alertShow('Verifique', 'alert', 'Ingrese un numero de cuenta')
+    } else {
+
+      this.listaBoletosAll.forEach(boleto => {
+        // selecciona los seleccionado y activos
+        if (boleto.selected) {
+
+          let data = {
+            boleto: boleto.boleto,
+            codigoTransaccion: boleto.codigo,
+            rutSolicitante: this.usuario.usuario.rut,
+            usuario: `${this.usuario.usuario.nombre} ${this.usuario.usuario.apellidoPaterno}`,
+            banco: this.myData.banco,
+            tipoCuenta: this.myData.tipoDeCuenta,
+            numeroCuenta: this.myData.numeroDeCuenta,
+            rutTitular: this.myData.rutTitular,
+            integrador: boleto.integrador
+          }
+
+          this.loading = true
+          this.integrador.anularBoleto(data).subscribe((resultado: any) => {
+            this.loading = false
+            console.log('resultado', resultado);
+            if (resultado.exito) {
+              alert(`Boleto ${data.boleto} \n${resultado.mensaje}`)
+            } else {
+              alert(`Boleto ${data.boleto} \n${resultado.mensaje}`)
+            }
+          })
+
+        }
+      });
+
+
     }
-
-
 
 
   }
 
   ionViewWillLeave() {
-    this.listaBoletosAll=[]
+    this.listaBoletosAll = []
+    this.nBoletosSeleccionados = 0
   }
 
 
 }
+
+// codigo: "DDX64694278"
+// boleto: "INT072826"
