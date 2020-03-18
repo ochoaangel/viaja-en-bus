@@ -183,8 +183,24 @@ export class IntegradorService {
         this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
         return this.http.post<any[]>(urlFinal, params);
     }
+    ///////////////////////////////////////////////////////////////////////////////////
+    //////////////////////// Gestion bancos ///////////////////////////////////////
     
-
+    buscarBancos(): Observable<any[]> {
+        let urlFinal
+        let dirProxy = '/srv-privado-viajaenbus-web/rest/parametros/obtenerBanco'
+        this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
+        return this.http.post<any[]>(urlFinal, '');
+    }
+    
+    buscarTipoDeCuentas(params: any): Observable<any[]> {
+        let urlFinal
+        let dirProxy = '/srv-privado-viajaenbus-web/rest/parametros/obtenerTipoCuenta'
+        this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
+        return this.http.post<any[]>(urlFinal, params);
+    }
+    
+    
 
 
 }

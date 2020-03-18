@@ -307,7 +307,9 @@ export class MyDataPage implements OnInit {
             this.mys.saveUsuario(this.usuario).subscribe(guardado => {
               if (guardado) {
                 console.log('guardadooooooo');
+                this.mys.alertShow('Éxito!!','checkmark-circle','Datos Actualizados exitosamente..')
               } else {
+                this.mys.alertShow('Éxito!!','alert','Hubo inconvenientes al actualizar los datos..')
                 console.log('NOOO guardadooooooo');
               }
             })
