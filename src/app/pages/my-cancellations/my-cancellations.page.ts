@@ -12,6 +12,7 @@ export class MyCancellationsPage implements OnInit {
 
   listaBoletosAll = []
   usuario
+  nBoletosSeleccionados = 0
   loading = false
   tipoDeCuentaOptions = { header: 'Tipo de Cuenta' }
   bancoOptions = { header: 'Banco' }
@@ -115,7 +116,7 @@ export class MyCancellationsPage implements OnInit {
         nombre: "Scotiabank"
       }
     ],
-    rut: '',
+    rutTitular: '',
     banco: ''
   }
 
@@ -153,7 +154,7 @@ export class MyCancellationsPage implements OnInit {
 
     if (this.myData.codigoBoletoAconsultar) {
       this.loading = true
-      this.integrador.buscarBoletoPorCodigo({ email:  this.usuario.usuario.email.toLowerCase(), codigo: this.myData.codigoBoletoAconsultar }).subscribe(boletos => {
+      this.integrador.buscarBoletoPorCodigo({ email: this.usuario.usuario.email.toLowerCase(), codigo: this.myData.codigoBoletoAconsultar }).subscribe(boletos => {
         this.loading = false
         this.listaBoletosAll = boletos
         console.log('listaBoletosAll', this.listaBoletosAll);
@@ -167,17 +168,88 @@ export class MyCancellationsPage implements OnInit {
         }
       })
     } else {
+      this.mys.alertShow('Verifique!!', 'alert', 'Debe ingresar un código de transacción válido')
+      this.listaBoletosAll = []
       console.log('caso cuando no hay this.myData.codigoBoletoAconsultar');
     }
 
   }
 
+  checkboxChanged() {
+    console.log('CHANGED_this.listaBoletosAll', this.listaBoletosAll);
+    let nSelected = 0
+    this.listaBoletosAll.forEach(element => {
+      element.selected ? nSelected++ : null
+    });
+    this.nBoletosSeleccionados = nSelected
+    console.log('nSelected', nSelected);
+  }
+
 
   anular() {
-    console.log('this.listaBoletosAll', this.listaBoletosAll);
+    // let data = {
+    //   boleto: "INT072593",
+    //   codigoTransaccion: "EOL64694093",
+    //   rutSolicitante: "11111111-1",
+    //   usuario: "IVAN VALENZUELA",
+    //   banco: "BANCO BICE",
+    //   tipoCuenta: "CUENTACORRIENTE",
+    //   numeroCuenta: "3333",
+    //   rutTitular: "11111111-1",
+    //   integrador: 1004
+    // }
+
+    this.listaBoletosAll.forEach(boleto => {
+      if (boleto.selected) {
+
+        let data = {
+          boleto: boleto.boleto,
+          codigoTransaccion: boleto.codigo,
+          rutSolicitante: this.usuario.usuario.rut,
+          usuario: `${this.usuario.usuario.nombre} ${this.usuario.usuario.apellidoPaterno}`,
+          banco: this.myData.banco,
+          tipoCuenta: this.myData.tipoDeCuenta,
+          numeroCuenta: this.myData.numeroDeCuenta,
+          rutTitular: this.myData.rutTitular,
+          integrador: 1004
+        }
+        this.loading = true
+        this.integrador.anularBoleto(data).subscribe((resultado:any) => {
+          this.loading = false
+          console.log('resultado', resultado);
+          if (resultado.exito) {
+            alert(`Boleto ${data.boleto} \n${resultado.mensaje}`)
+          } else {
+            alert(`Boleto ${data.boleto} \n${resultado.mensaje}`)
+          }
+        })
+
+
+      }
+    });
+    // console.log('this.listaBoletosAll', this.listaBoletosAll);
+    // console.log('usuario', this.usuario);
+
+    let data = {
+      boleto: "",
+      codigoTransaccion: "",
+      rutSolicitante: "",
+      usuario: "",
+      banco: "",
+      tipoCuenta: "",
+      numeroCuenta: "",
+      rutTitular: "",
+      integrador: 1004
+    }
+
+
+
 
   }
 
+  ionViewWillLeave() {
+    this.listaBoletosAll=[]
+  }
 
 
 }

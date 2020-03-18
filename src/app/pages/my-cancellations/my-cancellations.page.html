@@ -64,7 +64,7 @@
             </ion-row>
 
             <div style="background-color: #f2f2f2; width: 100%; margin-top: 0vh;" *ngIf="listaBoletosAll.length >0">
-              <ion-row no-margin no-padding class=" ion-justify-content-center  ion-align-items-center"
+              <ion-row class=" ion-justify-content-center  ion-align-items-center ion-no-margin ion-no-padding"
                 style="height: 2rem; background-color: var(--ion-color-primary); color: white;">
                 <div style="display: inline-block;width: 15%; font-size: 3vw;">Boleto</div>
                 <div style="display: inline-block;width: 15%; font-size: 3vw;">Fecha</div>
@@ -75,8 +75,9 @@
                 <div style="display: inline-block;width: 10%; font-size: 3vw;"></div>
               </ion-row>
 
-              <ion-row no-margin no-padding *ngFor="let boleto of listaBoletosAll; let i=index"
-                class=" ion-justify-content-center  ion-align-items-center" style="height: 2rem;">
+              <ion-row *ngFor="let boleto of listaBoletosAll; let i=index"
+                class=" ion-justify-content-center  ion-align-items-center  ion-no-margin ion-no-padding"
+                style="height: 2rem;">
                 <div style="display: inline-block;width: 15%; font-size: 2vw;">{{boleto.boleto}}</div>
                 <div style="display: inline-block;width: 15%; font-size: 2vw;">{{boleto.imprimeVoucher.fechaSalida}}
                 </div>
@@ -88,76 +89,85 @@
                   {{boleto.imprimeVoucher.nombreTerminalDestino}}</div>
                 <div style="display: inline-block;width: 15%; font-size: 2vw;">{{boleto.imprimeVoucher.asiento}}</div>
                 <div style="display: inline-block;width: 10%; font-size: 2vw;">
-                  <ion-checkbox mode='ios' style="width:1.3rem; height:1.3rem" [(ngModel)]="boleto.selected"></ion-checkbox>
+                  <ion-checkbox mode='ios' style="width:1.3rem; height:1.3rem" [(ngModel)]="boleto.selected"
+                    (ionChange)="checkboxChanged()"></ion-checkbox>
                 </div>
               </ion-row>
             </div>
 
+            <ion-row *ngIf="listaBoletosAll.length >0" style="justify-content: center;">
+              <ion-text color="primary">
+                <p style="padding: 0;">Seleccione boleto(s) para anular</p>
+              </ion-text>
+            </ion-row>
+            
 
             <ion-row>
               <ion-text color="primary">
-                <p>* Si la compra se Realizó con tarjeta de crédito, se generará una reversa en su cuenta, si se realizó
+                <p style="padding: 0 1rem;">* Si la compra se Realizó con tarjeta de crédito, se generará una reversa en su cuenta, si se realizó
                   con tarjeta de débito, se realizaréá una transferencia a la cuenta que entregue para este fin. La
                   devolucion o reversa se hará en un plazo máximo de 6 días hábiles.</p>
               </ion-text>
             </ion-row>
 
-            <!-- linea1 -->
-            <ion-row>
-              <ion-col size="6">
+            <div *ngIf="nBoletosSeleccionados>0">
+              <!-- linea1 -->
+              <ion-row>
+                <ion-col size="6">
 
-                <ion-select [interfaceOptions]="tipoDeCuentaOptions" class=" ion-no-padding ion-no-margin"
-                  multiple="false" placeholder="Tipo de Cuenta" cancel-text="Cancelar" [(ngModel)]="myData.tipoDeCuenta"
-                  #tipoDeCuenta name='tipoDeCuenta' required>
+                  <ion-select [interfaceOptions]="tipoDeCuentaOptions" class=" ion-no-padding ion-no-margin"
+                    multiple="false" placeholder="Tipo de Cuenta" cancel-text="Cancelar"
+                    [(ngModel)]="myData.tipoDeCuenta" #tipoDeCuenta name='tipoDeCuenta' required>
 
-                  <ion-select-option *ngFor="let tipoDeCuenta of myData.tiposDeCuentas" value="{{tipoDeCuenta.codigo}}">
-                    {{tipoDeCuenta.nombre}}
-                  </ion-select-option>
-                </ion-select>
-              </ion-col>
+                    <ion-select-option *ngFor="let tipoDeCuenta of myData.tiposDeCuentas"
+                      value="{{tipoDeCuenta.codigo}}">
+                      {{tipoDeCuenta.nombre}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-col>
 
-              <ion-col size="6">
-                <div class="overIonInput">
-                  <ion-input type="text" placeholder="Número de Cuenta"></ion-input>
-                </div>
-              </ion-col>
-            </ion-row>
+                <ion-col size="6">
+                  <div class="overIonInput">
+                    <ion-input type="text" placeholder="Número de Cuenta" [(ngModel)]="myData.numeroDeCuenta" #numeroDeCuenta name='numeroDeCuenta'></ion-input>
+                  </div>
+                </ion-col>
+              </ion-row>
 
-            <!-- linea2 -->
-            <ion-row>
-              <ion-col size="6">
+              <!-- linea2 -->
+              <ion-row>
+                <ion-col size="6">
 
-                <ion-select [interfaceOptions]="bancoOptions" class=" ion-no-padding ion-no-margin" multiple="false"
-                  placeholder="Banco" cancel-text="Cancelar" [(ngModel)]="myData.banco" #banco name='banco' required>
+                  <ion-select [interfaceOptions]="bancoOptions" class=" ion-no-padding ion-no-margin" multiple="false"
+                    placeholder="Banco" cancel-text="Cancelar" [(ngModel)]="myData.banco" #banco name='banco' required>
 
-                  <ion-select-option *ngFor="let banco of this.myData.bancos" value="{{banco.codigo}}">
-                    {{banco.nombre}}
-                  </ion-select-option>
-                </ion-select>
-              </ion-col>
+                    <ion-select-option *ngFor="let banco of this.myData.bancos" value="{{banco.codigo}}">
+                      {{banco.nombre}}
+                    </ion-select-option>
+                  </ion-select>
+                </ion-col>
 
-              <ion-col size="6">
-                <!-- <ion-col size="12"> -->
+                <ion-col size="6">
+                  <!-- <ion-col size="12"> -->
 
-                <div class="overIonInput">
-                  <ion-input type="text" placeholder="RUT del titular de la cuenta"></ion-input>
-                </div>
-                <!-- </ion-col> -->
-              </ion-col>
-            </ion-row>
+                  <div class="overIonInput">
+                    <ion-input type="text" placeholder="RUT del titular de la cuenta" [(ngModel)]="myData.rutTitular" #rutTitular name='rutTitular'></ion-input>
+                  </div>
+                  <!-- </ion-col> -->
+                </ion-col>
+              </ion-row>
 
-            <!-- linea3 -->
-            <ion-row>
-              <ion-col size="12">
+              <!-- linea3 -->
+              <ion-row>
+                <ion-col size="12">
 
-                <ion-button
-                  style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)"
-                  (click)="anular()"> Anular
-                </ion-button>
-              </ion-col>
-            </ion-row>
+                  <ion-button
+                    style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)"
+                    (click)="anular()"> Anular
+                  </ion-button>
+                </ion-col>
+              </ion-row>
 
-
+            </div>
 
 
 
