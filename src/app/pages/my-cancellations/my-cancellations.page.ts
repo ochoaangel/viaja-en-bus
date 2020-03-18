@@ -157,6 +157,9 @@ export class MyCancellationsPage implements OnInit {
         this.loading = false
         this.listaBoletosAll = boletos
         console.log('listaBoletosAll', this.listaBoletosAll);
+        if (boletos.length === 0) {
+          this.mys.alertShow('Verifique!!','alert','No hubo concidencias de su perfil con el código de transaccion suministrado..')
+        }
       })
     } else {
       console.log('caso cuando no hay this.myData.codigoBoletoAconsultar');
