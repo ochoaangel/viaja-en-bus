@@ -49,14 +49,16 @@
 
             <ion-row>
               <ion-col size="6" style="display: flex; align-items: center;">
-                
-                <div class="overIonInput" >
-                  <ion-input type="text"  placeholder="Código de transacción" [(ngModel)]="myData.codigoBoletoAconsultar"
-                  name='codigoBoletoAconsultar'></ion-input>
+
+                <div class="overIonInput">
+                  <ion-input type="text" placeholder="Código de transacción" [(ngModel)]="myData.codigoBoletoAconsultar"
+                    name='codigoBoletoAconsultar'></ion-input>
                 </div>
               </ion-col>
               <ion-col size="6">
-                <ion-button style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)" (click)="consultar()"> Consultar
+                <ion-button
+                  style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)"
+                  (click)="consultar()"> Consultar
                 </ion-button>
               </ion-col>
             </ion-row>
@@ -85,7 +87,9 @@
                 <div style="display: inline-block;width: 15%; font-size: 2vw;">
                   {{boleto.imprimeVoucher.nombreTerminalDestino}}</div>
                 <div style="display: inline-block;width: 15%; font-size: 2vw;">{{boleto.imprimeVoucher.asiento}}</div>
-                <div style="display: inline-block;width: 10%; font-size: 2vw;"><ion-checkbox mode='ios'style="width:1.3rem; height:1.3rem" ></ion-checkbox></div>
+                <div style="display: inline-block;width: 10%; font-size: 2vw;">
+                  <ion-checkbox mode='ios' style="width:1.3rem; height:1.3rem" [(ngModel)]="boleto.selected"></ion-checkbox>
+                </div>
               </ion-row>
             </div>
 
@@ -104,7 +108,7 @@
 
                 <ion-select [interfaceOptions]="tipoDeCuentaOptions" class=" ion-no-padding ion-no-margin"
                   multiple="false" placeholder="Tipo de Cuenta" cancel-text="Cancelar" [(ngModel)]="myData.tipoDeCuenta"
-                  #tipoDeCuenta name='tipoDeCuenta'  required >
+                  #tipoDeCuenta name='tipoDeCuenta' required>
 
                   <ion-select-option *ngFor="let tipoDeCuenta of myData.tiposDeCuentas" value="{{tipoDeCuenta.codigo}}">
                     {{tipoDeCuenta.nombre}}
@@ -124,8 +128,7 @@
               <ion-col size="6">
 
                 <ion-select [interfaceOptions]="bancoOptions" class=" ion-no-padding ion-no-margin" multiple="false"
-                  placeholder="Banco" cancel-text="Cancelar" [(ngModel)]="myData.banco" #banco name='banco'
-                   required >
+                  placeholder="Banco" cancel-text="Cancelar" [(ngModel)]="myData.banco" #banco name='banco' required>
 
                   <ion-select-option *ngFor="let banco of this.myData.bancos" value="{{banco.codigo}}">
                     {{banco.nombre}}
@@ -147,7 +150,9 @@
             <ion-row>
               <ion-col size="12">
 
-                <ion-button style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)" (click)="anular()"> Anular
+                <ion-button
+                  style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)"
+                  (click)="anular()"> Anular
                 </ion-button>
               </ion-col>
             </ion-row>

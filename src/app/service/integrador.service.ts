@@ -149,7 +149,7 @@ export class IntegradorService {
     //////////////////////// Gestion de Boletos ///////////////////////////////////////
     buscarTransaccionPorEmail(params: any): Observable<any[]> {
         let urlFinal
-        let dirProxy = 'srv-privado-viajaenbus-web/rest/compra/buscarTransaccionPorEmail'
+        let dirProxy = '/srv-privado-viajaenbus-web/rest/compra/buscarTransaccionPorEmail'
         this.sinProxy ? urlFinal = this.urlBase + dirProxy : urlFinal = dirProxy
         return this.http.post<any[]>(urlFinal, params);
     }

@@ -116,7 +116,7 @@ export class MyCancellationsPage implements OnInit {
       }
     ],
     rut: '',
-    banco:''
+    banco: ''
   }
 
   constructor(
@@ -125,15 +125,15 @@ export class MyCancellationsPage implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.loading = true
-    this.integrador.buscarBancos().subscribe(bancos => {
-      this.myData.bancos = bancos
-      this.integrador.buscarTipoDeCuentas({ codigo: "VD" }).subscribe(tiposDeCuentas => {
-        this.myData.tiposDeCuentas = tiposDeCuentas
-        this.loading = false
-        console.log('this.myData', this.myData);
-      })
-    })
+    // this.loading = true
+    // this.integrador.buscarBancos().subscribe(bancos => {
+    //   this.myData.bancos = bancos
+    //   this.integrador.buscarTipoDeCuentas({ codigo: "VD" }).subscribe(tiposDeCuentas => {
+    //     this.myData.tiposDeCuentas = tiposDeCuentas
+    //     this.loading = false
+    //     console.log('this.myData', this.myData);
+    //   })
+    // })
   }
 
   ionViewWillEnter() {
@@ -153,12 +153,17 @@ export class MyCancellationsPage implements OnInit {
 
     if (this.myData.codigoBoletoAconsultar) {
       this.loading = true
-      this.integrador.buscarBoletoPorCodigo({ email: this.usuario.usuario.email, codigo: this.myData.codigoBoletoAconsultar }).subscribe(boletos => {
+      this.integrador.buscarBoletoPorCodigo({ email:  this.usuario.usuario.email.toLowerCase(), codigo: this.myData.codigoBoletoAconsultar }).subscribe(boletos => {
         this.loading = false
         this.listaBoletosAll = boletos
         console.log('listaBoletosAll', this.listaBoletosAll);
         if (boletos.length === 0) {
-          this.mys.alertShow('Verifique!!','alert','No hubo concidencias de su perfil con el código de transaccion suministrado..')
+          this.mys.alertShow('Verifique!!', 'alert', 'No hubo concidencias de su perfil con el código de transacción suministrado..')
+        } else {
+          this.listaBoletosAll.forEach(element => {
+            element['selected'] = false
+          });
+          console.log('listaBoletosAll', this.listaBoletosAll);
         }
       })
     } else {
@@ -167,6 +172,11 @@ export class MyCancellationsPage implements OnInit {
 
   }
 
+
+  anular() {
+    console.log('this.listaBoletosAll', this.listaBoletosAll);
+
+  }
 
 
 
