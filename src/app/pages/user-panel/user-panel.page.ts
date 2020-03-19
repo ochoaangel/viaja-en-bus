@@ -62,7 +62,13 @@ export class UserPanelPage implements OnInit {
     // recibo la variable desde el popover y la guardo en data
     const { data } = await popoverMenu.onWillDismiss();
     if (data && data.destino) {
-      this.router.navigateByUrl(data.destino);
+      if (data.destino === '/login') {
+        this.mys.checkIfExistUsuario().subscribe(exist => {
+          exist ? this.router.navigateByUrl('/user-panel') : this.router.navigateByUrl('/login');
+        })
+      } else {
+        this.router.navigateByUrl(data.destino);
+      }
     }
   }
 

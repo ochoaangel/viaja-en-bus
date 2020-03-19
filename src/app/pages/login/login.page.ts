@@ -50,11 +50,17 @@ export class LoginPage implements OnInit {
     public platform: Platform,
     public mys: MyserviceService,
     private popoverCtrl: PopoverController,
-  ) { }
-
-  ngOnInit() { }
-
+  ) {
+    console.log('pasó por Constructor'); 
+  }
+  
+  ngOnInit() { 
+    console.log('pasó por ngOnInit'); 
+  }
+  
   ionViewWillEnter() {
+    console.log('pasó por ionViewWillEnter'); 
+    
     this.mys.checkIfExistUsuario().subscribe(exist => {
       exist ? this.router.navigateByUrl('/user-panel') : console.log('No existe usuario logeado..');
     })
@@ -117,8 +123,15 @@ export class LoginPage implements OnInit {
 
     // recibo la variable desde el popover y la guardo en data
     const { data } = await popoverMenu.onWillDismiss();
-    this.router.navigateByUrl(data.destino);
-  }
+    if (data && data.destino) {
+      if (data.destino === '/login') {
+        this.mys.checkIfExistUsuario().subscribe(exist => {
+          exist ? this.router.navigateByUrl('/user-panel') : this.router.navigateByUrl('/login');
+        })
+      } else {
+        this.router.navigateByUrl(data.destino);
+      }
+    }  }
 
   async popCart(event) {
     const popoverCart = await this.popoverCtrl.create({
