@@ -721,7 +721,8 @@ export class PaymentMethodsPage implements OnInit {
       } else {
         this.router.navigateByUrl(data.destino);
       }
-    }  }
+    }
+  }
 
   async popCart(event) {
     this.mys.temporalComprasCarrito = this.mys.ticket.comprasDetalles

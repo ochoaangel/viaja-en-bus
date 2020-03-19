@@ -6,6 +6,7 @@ import { PopoverController } from '@ionic/angular';
 import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
 import { IntegradorService } from 'src/app/service/integrador.service';
 import * as _ from 'underscore';
+import { METHODS } from 'http';
 
 
 @Component({
@@ -25,6 +26,7 @@ export class PurchaseDetailPage implements OnInit {
   tarifaTotal;
   eliminadoAsiento = false;
   loading = false
+  usuario
 
 
   ngOnInit() {
@@ -55,6 +57,12 @@ export class PurchaseDetailPage implements OnInit {
 
   }  // fin ngOnInit
 
+  ionViewWillEnter() {
+    this.mys.getUser().subscribe(usuario => {
+      this.usuario = usuario
+    })
+  }
+
   continuar() {
 
     if (this.tarifaTotal === 0) {
@@ -62,7 +70,16 @@ export class PurchaseDetailPage implements OnInit {
       this.router.navigateByUrl('/home');
     } else if ((this.ticket.tripType === 'goBack' && this.way === 'back') || (this.ticket.tripType === 'goOnly')) {
       this.mys.total = this.tarifaTotal;
-      this.router.navigateByUrl('/payment-methods');
+
+      // si el usuario esta logeado no entra a payment-METHODS, en caso de no estar logeado redirige a payment-methods
+      this.mys.checkIfExistUsuario().subscribe(exist => {
+        if (exist) {
+          this.continuarConUsuarioLogeado()
+        } else {
+          this.router.navigateByUrl('/payment-methods')
+        }
+      })
+
       this.mys.ticket = this.ticket;
     } else if (this.ticket.tripType === 'goBack' && this.way === 'go') {
 
@@ -180,7 +197,7 @@ export class PurchaseDetailPage implements OnInit {
 
 
 
-        // item.idServicio === idServicio ? item.my_Bus[piso][y][x]['estado'] = 'libre' : null
+      // item.idServicio === idServicio ? item.my_Bus[piso][y][x]['estado'] = 'libre' : null
       // });
       let index3 = ticket.backCompras.indexOf(texto)
       if (index3 !== -1) { ticket.backCompras.splice(index3, 1); }
@@ -209,7 +226,8 @@ export class PurchaseDetailPage implements OnInit {
       } else {
         this.router.navigateByUrl(data.destino);
       }
-    }  }
+    }
+  }
 
   async popCart(event) {
     this.mys.temporalComprasCarrito = this.ticket.comprasDetalles
@@ -227,6 +245,71 @@ export class PurchaseDetailPage implements OnInit {
     // this.router.navigateByUrl(data.destino);
   }
 
+  continuarConUsuarioLogeado() {
+
+    // console.log('oooooooooooooooooooooooooooooooooooooooooooooooooooo');
+    let guardarTransaccion = {
+      email: this.usuario.usuario.email,
+      rut: this.usuario.usuario.rut,
+      medioDePago: 'WBPAY',
+      puntoVenta: "WEBM",
+      montoTotal: this.tarifaTotal,
+      idSistema: 5,
+      listaCarrito: []
+    }
+    console.log(guardarTransaccion);
+    console.log(this.mys.ticket.comprasDetalles);
+    this.mys.ticket.comprasDetalles.forEach(boleto => {
+      guardarTransaccion.listaCarrito.push({
+        servicio: boleto.service.idServicio,
+        fechaServicio: boleto.service.fechaServicio,
+        fechaPasada: boleto.service.fechaSalida,
+        fechaLlegada: boleto.service.fechaLlegada,
+        horaSalida: boleto.service.horaSalida,
+        horaLlegada: boleto.service.horaLlegada,
+        asiento: boleto.asiento,
+        origen: boleto.service.idTerminalOrigen,
+        destino: boleto.service.idTerminalDestino,
+        monto: boleto.valor,
+        precio: boleto.valor,
+        // descuento: this.datosConvenio != null ? this.datosConvenio.descuento : 0,
+        descuento: 0,
+        empresa: boleto.service.empresa,
+        clase: boleto.piso == "1" ? boleto.service.idClaseBusPisoUno : boleto.service.idClaseBusPisoDos,
+        // convenio: this.datosConvenio != null ? this.datosConvenio.idConvenio : "",
+        convenio: "",
+        datoConvenio: "",
+        bus: boleto.piso == "1" ? boleto.service.busPiso1 : boleto.service.busPiso2,
+        piso: boleto.piso,
+        integrador: boleto.service.integrador
+      });
+    })
+    this.loading = true
+    this.integradorService.guardarTransaccion(guardarTransaccion).subscribe(resp => {
+      this.loading = false
+      let valor: any = resp;
+      if (valor.exito) {
+        this.formularioTBKWS(valor.url, valor.token);
+      } else {
+        this.mys.alertShow('¡Verifique!', 'alert', valor.mensaje);
+      }
+    })
+  }
+
+  formularioTBKWS(urltbk, token) {
+    var f = document.createElement("form");
+    f.setAttribute('method', "post");
+    f.setAttribute('action', urltbk);
+    var i = document.createElement("input");
+    i.setAttribute('type', "text");
+    i.setAttribute('name', "TBK_TOKEN");
+    i.setAttribute("value", token);
+    f.appendChild(i.cloneNode());
+    f.style.display = "none";
+    document.body.appendChild(f);
+    f.submit();
+    document.body.removeChild(f);
+  }
 
 }
 
