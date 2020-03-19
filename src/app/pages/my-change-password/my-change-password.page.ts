@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { MyserviceService } from 'src/app/service/myservice.service';
 import { IntegradorService } from 'src/app/service/integrador.service';
+import { Router } from '@angular/router';
+import { PopoverController } from '@ionic/angular';
+import { PopMenuComponent } from 'src/app/components/pop-menu/pop-menu.component';
+import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
+
 
 
 @Component({
@@ -23,6 +28,8 @@ export class MyChangePasswordPage implements OnInit {
   constructor(
     public mys: MyserviceService,
     private integradorService: IntegradorService,
+    private router: Router,
+    private popoverCtrl: PopoverController,
   ) { }
 
   ngOnInit() { }
@@ -38,6 +45,40 @@ export class MyChangePasswordPage implements OnInit {
       }
       this.myData.email = usuario.usuario.email
     })
+  }
+
+  async popMenu(event) {
+    console.log('event',event);
+    const popoverMenu = await this.popoverCtrl.create({
+      component: PopMenuComponent,
+      event,
+      mode: 'ios',
+      backdropDismiss: true,
+      cssClass: "popMenu"
+    });
+    await popoverMenu.present();
+
+    // recibo la variable desde el popover y la guardo en data
+    const { data } = await popoverMenu.onWillDismiss();
+    
+    if (data && data.destino) {
+      this.router.navigateByUrl(data.destino);
+    }
+    }
+
+  async popCart(event) {
+    const popoverCart = await this.popoverCtrl.create({
+      component: PopCartComponent,
+      event,
+      mode: 'ios',
+      backdropDismiss: true,
+      cssClass: "popCart"
+    });
+    await popoverCart.present();
+
+    // recibo la variable desde el popover y la guardo en data
+    // const { data } = await popoverCart.onWillDismiss();
+    // this.router.navigateByUrl(data.destino);
   }
 
 

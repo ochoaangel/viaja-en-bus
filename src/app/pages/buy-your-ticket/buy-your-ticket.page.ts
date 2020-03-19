@@ -3,9 +3,9 @@ import { HttpClient } from "@angular/common/http";
 
 import * as _ from 'underscore';
 import * as moment from 'moment';
-import { Router } from '@angular/router';
 import { MyserviceService } from 'src/app/service/myservice.service';
 import { IntegradorService } from 'src/app/service/integrador.service';
+import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { PopMenuComponent } from 'src/app/components/pop-menu/pop-menu.component';
 import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
@@ -688,11 +688,11 @@ export class BuyYourTicketPage implements OnInit {
 
   constructor(
     private httpClient: HttpClient,
-    private router: Router,
     private mys: MyserviceService,
     private integradorService: IntegradorService,
-    private popoverCtrl: PopoverController,
     private renderer: Renderer,
+    private router: Router,
+    private popoverCtrl: PopoverController,
 
 
 
@@ -867,8 +867,11 @@ export class BuyYourTicketPage implements OnInit {
 
     // recibo la variable desde el popover y la guardo en data
     const { data } = await popoverMenu.onWillDismiss();
-    this.router.navigateByUrl(data.destino);
-  }
+    
+    if (data && data.destino) {
+      this.router.navigateByUrl(data.destino);
+    }
+    }
 
   async popCart(event) {
     const popoverCart = await this.popoverCtrl.create({

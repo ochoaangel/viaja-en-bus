@@ -22,7 +22,6 @@ import { PopLanguageComponent } from 'src/app/components/pop-language/pop-langua
     IonicModule,
     BuyYourTicketPageRoutingModule,
     PipesModule,
-
     ComponentsModule
   ],
   declarations: [BuyYourTicketPage]
