@@ -46,29 +46,33 @@
             <form (ngSubmit)='validar(forma)' #forma='ngForm' novalidate=''>
               <div style="padding: 0 10vw;">
 
+                <div *ngIf="usuarioLogeado">
+                  <div style="font-size: 0.7rem;">Datos obtenidos del perfil</div>
+                </div>
+
                 <ion-item>
                   <ion-label position="floating">Nombre</ion-label>
                   <ion-input name='name' type='text' #name='ngModel' minlength='3' maxleng="30"
-                    [(ngModel)]="DatosFormulario.name"></ion-input>
+                    [(ngModel)]="DatosFormulario.name" [disabled]="usuarioLogeado"></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label position="floating">Apellido</ion-label>
                   <ion-input name='lastName' type='text' #lastName='ngModel' minlength='3' maxleng="30"
-                    [(ngModel)]="DatosFormulario.lastName"></ion-input>
+                    [(ngModel)]="DatosFormulario.lastName" [disabled]="usuarioLogeado"></ion-input>
                 </ion-item>
 
                 <ion-item>
                   <ion-label position="floating">N° Documento</ion-label>
                   <ion-input name='rut' type='text' placeholder="XXXXXXXXX-X" #rut='ngModel'
-                    pattern="^[0-9]+[-|‐]{1}[0-9kK]{1}$" [(ngModel)]="DatosFormulario.rut" (keyup)="onKeyPressedOnRut(forma.controls.rut.valid)"></ion-input>
+                    pattern="^[0-9]+[-|‐]{1}[0-9kK]{1}$" [(ngModel)]="DatosFormulario.rut" (keyup)="onKeyPressedOnRut(forma.controls.rut.valid)" [disabled]="usuarioLogeado"></ion-input>
                 </ion-item>
                 <div *ngIf="showRutError"
                   style="color:var(--ion-color-secondary); font-size: 0.8rem; border: 1px solid var(--ion-color-secondary);border-radius: 5px; margin: 5px 0">
                   Rut debe ser válido, con guión y sin puntos.
                 </div>
 
-                <ion-item>
+                <ion-item *ngIf="!usuarioLogeado">
                   <ion-label position="floating">Móvil</ion-label>
                   <ion-input name='telefono' type='phone' #telefono='ngModel'
                     pattern="^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$"
@@ -79,10 +83,10 @@
                   <ion-label position="floating">Email*</ion-label>
                   <ion-input name='email' type='email' #email='ngModel'
                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="DatosFormulario.email"
-                    type='email'></ion-input>
+                    type='email' [disabled]="usuarioLogeado"></ion-input>
                 </ion-item>
 
-                <ion-item>
+                <ion-item *ngIf="!usuarioLogeado">
                   <ion-label position="floating">Confirme correo*</ion-label>
                   <ion-input name='email2' type='email' #email2='ngModel'
                     pattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" [(ngModel)]="DatosFormulario.email2"

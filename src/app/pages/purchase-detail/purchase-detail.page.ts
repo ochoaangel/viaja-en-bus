@@ -72,13 +72,13 @@ export class PurchaseDetailPage implements OnInit {
       this.mys.total = this.tarifaTotal;
 
       // si el usuario esta logeado no entra a payment-METHODS, en caso de no estar logeado redirige a payment-methods
-      this.mys.checkIfExistUsuario().subscribe(exist => {
-        if (exist) {
-          this.continuarConUsuarioLogeado()
-        } else {
+      // this.mys.checkIfExistUsuario().subscribe(exist => {
+      //   if (exist) {
+      //     this.continuarConUsuarioLogeado()
+      //   } else {
           this.router.navigateByUrl('/payment-methods')
-        }
-      })
+      //   }
+      // })
 
       this.mys.ticket = this.ticket;
     } else if (this.ticket.tripType === 'goBack' && this.way === 'go') {

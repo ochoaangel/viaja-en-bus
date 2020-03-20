@@ -53,6 +53,8 @@ export class PaymentMethodsPage implements OnInit {
   totalSinDscto;
   totalFinal;
   showRutError = false;
+  usuario
+  usuarioLogeado = false
 
   acuerdo = { acuerdo: false }
   ticket
@@ -360,15 +362,24 @@ export class PaymentMethodsPage implements OnInit {
     { pais: 'Zimbábue', codigo: '+263' }
   ]
 
-  // ionViewWillEnter() {
-  //   this.mys.checkIfExistUsuario().subscribe(exist => {
-  //     if (!exist) {
-  //       console.log('No existe usuario logeado')
-  //       this.mys.alertShow('Atención!!','alert', 'Es necesario iniciar sesión para realizar un pago..')
-  //       this.router.navigateByUrl('/login')
-  //     } 
-  //   })
-  // }
+  ionViewWillEnter() {
+    this.mys.checkIfExistUsuario().subscribe(exist => {
+      if (exist) {
+        this.mys.getUser().subscribe(usuario => {
+          this.usuarioLogeado = true;
+          this.usuario = usuario;
+
+          if (usuario && usuario.usuario && usuario.usuario.rut) { this.DatosFormulario.rut = usuario.usuario.rut }
+          if (usuario && usuario.usuario && usuario.usuario.email) { this.DatosFormulario.email = usuario.usuario.email; this.DatosFormulario.email2 = this.DatosFormulario.email }
+          if (usuario && usuario.usuario && usuario.usuario.nombre) { this.DatosFormulario.name = usuario.usuario.nombre }
+          if (usuario && usuario.usuario && usuario.usuario.apellidoPaterno) { this.DatosFormulario.lastName = usuario.usuario.apellidoPaterno }
+          if (usuario && usuario.usuario && usuario.usuario.name) { this.DatosFormulario.name = usuario.usuario.nombre }
+
+          console.log('usuario', usuario);
+        })
+      }
+    })
+  }
 
 
   ngOnInit() {
@@ -408,7 +419,7 @@ export class PaymentMethodsPage implements OnInit {
 
     if (form.invalid) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Verifique, igrese todos los campos correctamente.');
-    } else if (form.value.email !== form.value.email2) {
+    } else if ((form.value.email !== form.value.email2) && !this.usuarioLogeado) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Verifique Los emails no coinciden, para continuar con el pago');
     } else if (!this.validaRut(form.value.rut)) {
       this.mys.alertShow('¡Verifique!', 'alert', 'Debe ingresar un Número de documento válido para continuar con el pago');
