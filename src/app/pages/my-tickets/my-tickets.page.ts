@@ -6,6 +6,8 @@ import { PopoverController } from '@ionic/angular';
 import { PopMenuComponent } from 'src/app/components/pop-menu/pop-menu.component';
 import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
 import * as moment from 'moment';
+import * as _ from 'underscore';
+
 
 
 
@@ -174,15 +176,14 @@ export class MyTicketsPage implements OnInit {
                     estadoBoleto = 'INACTIVO'
                   } else {
                     // caso de 4horas para anular 
-                    fechaSalida.isBefore(fechaSalidaPlus4H) ? estadoBoleto = 'ACTIVO' : estadoBoleto = 'INACTIVO'
+                    fechaSalida.isBefore(fechaSalidaPlus4H) ? estadoBoleto = 'INACTIVO' : estadoBoleto = 'ACTIVO'
                   }
                 }
                 boleto['selected'] = false
                 boleto['myEstado'] = estadoBoleto
                 this.boletosAll.push(boleto)
               });
-              // boletos.sort
-              console.log('this.boletosAll', this.boletosAll);
+              this.boletosAll = _.sortBy(this.boletosAll, 'myEstado')
             })
           });
 

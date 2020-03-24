@@ -194,8 +194,8 @@ export class MyDataPage implements OnInit {
           this.myData.fechaActivacion = moment(usuario.usuario.fechaActivacion).format('DD-MM-YYYY')
 
           this.myData.genero = usuario.usuario.genero
-          this.myData.telefono = usuario.usuario.telefono
-          this.myData.celular = usuario.usuario.celular
+          this.myData.telefono = usuario.usuario.telefono ||'+56'
+          this.myData.celular = usuario.usuario.celular||'+56'
           this.myData.ciudad = usuario.usuario.ciudad
 
 
@@ -252,14 +252,14 @@ export class MyDataPage implements OnInit {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una clave para inicio de sesión válida y mayor o igual a 8 caracteres')
       // } else if (forma.controls.ocupacion.errors) {
       //   this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca ocupacion válida')
-    } else if (forma.controls.telefono.errors) {
+    } else if (forma.controls.telefono.errors && this.myData.telefono !== '+56') {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca un teléfono válido')
     } else if (forma.controls.celular.errors) {
       this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca un celular válido')
-    } else if (forma.controls.region.errors) {
-      this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una región válida')
-    } else if (forma.controls.ciudad.errors) {
-      this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una ciudad válida')
+    // } else if (forma.controls.region.errors) {
+    //   this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una región válida')
+    // } else if (forma.controls.ciudad.errors) {
+    //   this.mys.alertShow('Verifique!! ', 'alert', 'Introduzca una ciudad válida')
     } else {
       console.log('fiiiiiiiiinnnnnnnnnnnnnnnn');
 

@@ -180,7 +180,7 @@ export class MyCancellationsPage implements OnInit {
                     estadoBoleto = 'INACTIVO'
                   } else {
                     // caso de 4horas para anular 
-                    fechaSalida.isBefore(fechaSalidaPlus4H) ? estadoBoleto = 'ACTIVO' : estadoBoleto = 'INACTIVO'
+                    fechaSalida.isBefore(fechaSalidaPlus4H) ? estadoBoleto = 'INACTIVO' : estadoBoleto = 'ACTIVO'
                   }
                 }
                 boleto['selected'] = false
