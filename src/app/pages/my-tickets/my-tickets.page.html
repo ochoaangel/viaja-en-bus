@@ -40,15 +40,16 @@
           <ion-col class=" ion-no-padding ion-no-margin" size="12" style="text-align: center;">
 
 
-            
-            
-            <div *ngIf="boletosAll.length>0">
+
+
+            <div *ngIf="boletosAll.length<-100">
 
               <ion-row>
                 <ion-text color="primary">
                   <p>Debe seleccionar el o los boletos que desea anular. La anulación debe ser realizada por lo menos 4
                     hrs antes de la salida del servicio</p>
-                  <p style="padding: 0 1rem;">* Si la compra se Realizó con tarjeta de crédito, se generará una reversa en su cuenta, si se realizó
+                  <p style="padding: 0 1rem;">* Si la compra se Realizó con tarjeta de crédito, se generará una reversa
+                    en su cuenta, si se realizó
                     con tarjeta de débito, se realizaréá una transferencia a la cuenta que entregue para este fin. La
                     devolucion o reversa se hará en un plazo máximo de 6 días hábiles.</p>
                 </ion-text>
@@ -72,7 +73,8 @@
 
                 <ion-col size="6">
                   <div class="overIonInput">
-                    <ion-input type="text" placeholder="Número de Cuenta" [(ngModel)]="myData.numeroDeCuenta" #numeroDeCuenta name='numeroDeCuenta'></ion-input>
+                    <ion-input type="text" placeholder="Número de Cuenta" [(ngModel)]="myData.numeroDeCuenta"
+                      #numeroDeCuenta name='numeroDeCuenta'></ion-input>
                   </div>
                 </ion-col>
               </ion-row>
@@ -94,7 +96,8 @@
                   <!-- <ion-col size="12"> -->
 
                   <div class="overIonInput">
-                    <ion-input type="text" placeholder="RUT del titular de la cuenta" [(ngModel)]="myData.rutTitular" #rutTitular name='rutTitular'></ion-input>
+                    <ion-input type="text" placeholder="RUT del titular de la cuenta" [(ngModel)]="myData.rutTitular"
+                      #rutTitular name='rutTitular'></ion-input>
                   </div>
                   <!-- </ion-col> -->
                 </ion-col>
@@ -106,25 +109,36 @@
 
                   <ion-button
                     style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)"
-                    (click)="anular()" [disabled]="nBoletosSeleccionados<1"> 
-                      <div *ngIf="nBoletosSeleccionados>0">Anular seleccionados</div> 
-                      <div *ngIf="nBoletosSeleccionados<1">Seleccione Boletos para anular</div> 
+                    (click)="anular()" [disabled]="nBoletosSeleccionados<1">
+                    <div *ngIf="nBoletosSeleccionados>0">Anular seleccionados</div>
+                    <div *ngIf="nBoletosSeleccionados<1">Seleccione Boletos para anular</div>
                   </ion-button>
                 </ion-col>
               </ion-row>
 
             </div>
 
+            <!-- linea3 -->
+            <ion-row *ngIf="loading==0">
+              <ion-col size="12">
+
+                <ion-button
+                  style="width: -webkit-fill-available; transform: none;--background:var(--ion-color-secondary)"
+                  (click)="actualizar() " [disabled]="loading>0">
+                  <div>Actualizar</div>
+                </ion-button>
+              </ion-col>
+            </ion-row>
+
 
             <ion-row class=" ion-no-padding ion-no-margin" class="ticket"
               *ngFor="let boleto of boletosAll;  let i=index">
-              <ion-row class=" ion-no-padding ion-no-margin" style="width: 100%;">
+              <ion-row class=" ion-no-padding ion-no-margin" style="width: 100%; display: flex; align-items: center;">
                 <ion-col size="3" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket">Origen/Terminal </ion-col>
                 <ion-col size="3" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket">Destino/Terminal </ion-col>
-                <ion-col size="3" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket">Fecha/Hora Salida
-                </ion-col>
-                <ion-col size="2" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket">Asiento</ion-col>
-                <ion-col size="1" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket"></ion-col>
+                <ion-col size="3" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket">Fecha<br>Hora Salida </ion-col>
+                <ion-col size="1" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket">Asiento</ion-col>
+                <ion-col size="2" class=" ion-no-padding ion-no-margin" class="cabeceraCadaTicket">Estado</ion-col>
               </ion-row>
 
               <ion-row class=" ion-no-padding ion-no-margin" style="width: 100%;">
@@ -134,13 +148,13 @@
                   {{boleto.imprimeVoucher.nombreTerminalDestino}}</ion-col>
                 <ion-col size="3" class=" ion-no-padding ion-no-margin" class="infoCadaTicket">
                   {{boleto.imprimeVoucher.fechaSalida}}<br>{{boleto.imprimeVoucher.horaSalida}} </ion-col>
-                <ion-col size="2" class=" ion-no-padding ion-no-margin" class="infoCadaTicket">
-                  {{boleto.imprimeVoucher.asiento}}</ion-col>
                 <ion-col size="1" class=" ion-no-padding ion-no-margin" class="infoCadaTicket">
-                  <ion-checkbox mode="ios" style="position: relative; left: -7px; height: 5vw; width: 5vw;"
-                    [(ngModel)]="boletosAll[i].selected" (ionChange)="checkboxChanged()">
-                  </ion-checkbox>
-                </ion-col>
+                  {{boleto.imprimeVoucher.asiento}}</ion-col>
+                  <ion-col size="2" class=" ion-no-padding ion-no-margin" class="infoCadaTicket">
+                    <div class="textoVertical" *ngIf="boleto.myEstado === 'INACTIVO'" style="font-weight:normal ;"> {{boleto.myEstado}}</div>
+                    <div class="textoVertical" *ngIf="boleto.myEstado === 'ANULADO'" style="color: var(--ion-color-danger);">{{boleto.myEstado}}</div>
+                    <div class="textoVertical" *ngIf="boleto.myEstado === 'ACTIVO'" style="color: var(--ion-color-primary);"> {{boleto.myEstado}}</div>
+                  </ion-col>
               </ion-row>
 
             </ion-row>

@@ -3,7 +3,8 @@ import { MyserviceService } from 'src/app/service/myservice.service';
 import { Router } from '@angular/router';
 import { PopMenuComponent } from 'src/app/components/pop-menu/pop-menu.component';
 import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
-import { PopoverController } from '@ionic/angular';
+import { PopoverController, NavController } from '@ionic/angular';
+import { Location } from '@angular/common';
 
 
 
@@ -21,13 +22,19 @@ export class UserPanelPage implements OnInit {
   constructor(private mys: MyserviceService,
     private router: Router,
     private popoverCtrl: PopoverController,
+    private navCtrl: NavController,
+    private location: Location ,
+
 
   ) { }
 
-  ngOnInit() { }
-
+  ngOnInit() {
+    console.log('this.mys.ticket__1',this.mys.ticket); 
+  }
+  
   ionViewWillEnter() {
-
+    console.log('this.mys.ticket__2',this.mys.ticket); 
+    
     this.mys.checkIfExistUsuario().subscribe(exist => {
       exist ? null : this.router.navigateByUrl('/login');
     })
@@ -93,5 +100,28 @@ export class UserPanelPage implements OnInit {
       this.mys.alertShow('Éxito¡¡', 'checkmark-circle', ', Sesión cerrada exitosamente..')
       this.router.navigateByUrl('/login')
     })
+  }
+
+
+  regresar(){
+    // this.navCtrl.
+    // // console.log('this.router.getCurrentNavigation()',this.router.getCurrentNavigation());
+    // console.log('this.router.getCurrentNavigation()',this.navCtrl.);
+    // console.log('kljhuyb');
+    // console.log('kljhuyb');
+    // console.log('jgfjhsjgdhfsd',this.location.getState());
+    // console.log(this.navCtrl.back());
+    
+    // console.log(this.location.back());
+    // console.log(this.location.back());
+    // console.log(this.location.back());
+    // console.log(this.location.back());
+    console.log('fanksjfsdf',window.history.state());
+    // console.log('--1',this.router.getCurrentNavigation());
+    // console.log('XXX2',this.router.url);
+    // console.log('--3',this.router.navigated);
+
+    
+
   }
 }

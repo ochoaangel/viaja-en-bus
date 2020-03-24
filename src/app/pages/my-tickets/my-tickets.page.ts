@@ -5,6 +5,8 @@ import { Router } from '@angular/router';
 import { PopoverController } from '@ionic/angular';
 import { PopMenuComponent } from 'src/app/components/pop-menu/pop-menu.component';
 import { PopCartComponent } from 'src/app/components/pop-cart/pop-cart.component';
+import * as moment from 'moment';
+
 
 
 @Component({
@@ -151,18 +153,35 @@ export class MyTicketsPage implements OnInit {
           this.mys.alertShow('Sin Transacciones', 'alert', 'no hay transacciones registradas para mostrar')
           this.router.navigateByUrl('/my-cancellations')
         } else {
+          let actualDate = moment()
           this.transaccionesAll.forEach(transaccion => {
             // buscando cada boleto de cada transaccion
             this.boletosAll = []
             this.loading++
             this.integrador.buscarBoletoPorCodigo({ email: usuario.usuario.email, codigo: transaccion.codigo }).subscribe(boletos => {
               this.loading--
-              boletos.forEach(element => {
-                if (element.estado === 'ACT') {
-                  element['selected'] = false
-                  this.boletosAll.push(element)
+
+              boletos.forEach(boleto => {
+                let estadoBoleto = ''
+
+                if (boleto.estado === 'NUL') {
+                  estadoBoleto = 'ANULADO'
+                } else {
+                  // posibles casos activos
+                  let fechaSalida = moment(`${boleto.imprimeVoucher.fechaSalida} ${boleto.imprimeVoucher.horaSalida}`, 'DD/MM/YYYY HH:mm')
+                  let fechaSalidaPlus4H = fechaSalida.add(4, 'hours').add(1, 'minute')
+                  if (fechaSalida.isBefore(actualDate)) {
+                    estadoBoleto = 'INACTIVO'
+                  } else {
+                    // caso de 4horas para anular 
+                    fechaSalida.isBefore(fechaSalidaPlus4H) ? estadoBoleto = 'ACTIVO' : estadoBoleto = 'INACTIVO'
+                  }
                 }
+                boleto['selected'] = false
+                boleto['myEstado'] = estadoBoleto
+                this.boletosAll.push(boleto)
               });
+              // boletos.sort
               console.log('this.boletosAll', this.boletosAll);
             })
           });
@@ -174,9 +193,9 @@ export class MyTicketsPage implements OnInit {
     })
   }
 
-  
+
   async popMenu(event) {
-    console.log('event',event);
+    console.log('event', event);
     const popoverMenu = await this.popoverCtrl.create({
       component: PopMenuComponent,
       event,
@@ -197,7 +216,7 @@ export class MyTicketsPage implements OnInit {
         this.router.navigateByUrl(data.destino);
       }
     }
-    }
+  }
 
   async popCart(event) {
     const popoverCart = await this.popoverCtrl.create({
@@ -282,6 +301,10 @@ export class MyTicketsPage implements OnInit {
     });
     this.nBoletosSeleccionados = nSelected
     console.log('nSelected', nSelected);
+  }
+
+  actualizar() {
+    this.ionViewWillEnter()
   }
 
 }

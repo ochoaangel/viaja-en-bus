@@ -59,28 +59,18 @@
             </ion-row>
 
 
-            <!-- <ion-row>
-              <ion-col size="6" style="margin-top: 3vh; margin-bottom: 3vh;">
-                <input type="button" class="ingresar" value="Mis datos" routerLink="/my-data" />
-                <input type="button" class="ingresar" value="Cambiar password" routerLink="/my-change-password" />
-              </ion-col>
-              <ion-col size="6" style="margin-top: 3vh; margin-bottom: 3vh;">
-                <input type="button" class="ingresar" value="Mis tickets" routerLink="/my-tickets" />
-                <input type="button" class="ingresar" value="Anulaciones" routerLink="/my-cancellations" />
-              </ion-col>
-            </ion-row> -->
             <ion-row>
               <ion-col size="12" style="margin-top: 3vh; margin-bottom: 3vh;" >
                 <div style="display: flex;">
                   <input type="button" class="ingresar" value="Mis datos" routerLink="/my-data" />
                   <input type="button" class="ingresar" value="Cambiar password" routerLink="/my-change-password" />
                 </div>
-                <input type="button" class="ingresar"  value="Anulaciones" routerLink="/my-tickets" />
+                <div style="display: flex;">
+                  <input type="button" class="ingresar"  value="Anulaciones" routerLink="/my-cancellations" />
+                  <input type="button" class="ingresar"  value="Mis tickets" routerLink="/my-tickets" />
+
+                </div>
               </ion-col>
-              <!-- <ion-col size="12" style="margin-top: 3vh; margin-bottom: 3vh;">
-                <input type="button" class="ingresar" value="Mis tickets" routerLink="/my-tickets" />
-                <input type="button" value="Anulaciones" routerLink="/my-cancellations" />
-              </ion-col> -->
             </ion-row>
 
 
@@ -106,18 +96,6 @@
               </ion-col>
             </ion-row>
 
-
-
-
-
-
-
-
-
-
-
-
-
           </ion-col>
         </ion-row>
       </ion-grid>
@@ -128,7 +106,7 @@
 <ion-footer no-border style=" width: 100vw;background-color: var(--ion-color-primary);color: white;">
   <div style="width: 100%; display: flex;justify-content: center;">
 
-    <ion-button slot="start" fill="clear" style="color: white; width: 50%; outline: none;" routerLink="/buy-your-ticket"> 
+    <ion-button slot="start" fill="clear" style="color: white; width: 50%; outline: none;" routerLink='/buy-your-ticket'> 
       <ion-icon src="assets/icon/previous.svg"></ion-icon>
       <div style="display: inline; text-align: left ;padding-left: 10px; text-transform: none;">Regresar</div>
     </ion-button>
