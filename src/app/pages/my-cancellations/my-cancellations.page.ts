@@ -274,15 +274,15 @@ export class MyCancellationsPage implements OnInit {
             integrador: boleto.integrador
           }
           // alert(contador)
-          // console.log('data', contador, data);
+          console.log('dataEnviadoParaAnular', contador, data);
           this.loading++
           this.integrador.anularBoleto(data).subscribe((resultado: any) => {
             this.loading--
             console.log('resultado', resultado);
             if (resultado.exito) {
-              alert(`Boleto ${data.boleto} \nFecha:${boleto.imprimeVoucher.fechaSalida}\nHora:${boleto.imprimeVoucher.horaSalida}\nAsiento:${boleto.imprimeVoucher.horaSalida}\n${resultado.mensaje}`)
+              alert(`Boleto ${data.boleto} \nFecha:${boleto.imprimeVoucher.fechaSalida}\nHora:${boleto.imprimeVoucher.horaSalida}\nAsiento:${boleto.imprimeVoucher.asiento}\nBoleto Anulado Exitosamente`)
             } else {
-              alert(`Boleto ${data.boleto} \nFecha:${boleto.imprimeVoucher.fechaSalida}\nHora:${boleto.imprimeVoucher.horaSalida}\nAsiento:${boleto.imprimeVoucher.horaSalida}\n${resultado.mensaje}`)
+              alert(`Boleto ${data.boleto} \nFecha:${boleto.imprimeVoucher.fechaSalida}\nHora:${boleto.imprimeVoucher.horaSalida}\nAsiento:${boleto.imprimeVoucher.asiento}\n${resultado.mensaje || 'Error al Anular el Boleto, Verifique los datos e intente nuevamente..'}`)
             }
           })
 
